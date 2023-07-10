@@ -4,18 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Domain.Domains
+namespace ElectroTrading.Domain.Entities
 {
-    public class Attendance
+    public class EmployeeDebt
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public Employee? Employee { get; set; }
-        public DateOnly Day { get; set; } = new DateOnly();
-        public bool IsMainWork { get; set; } = false;
-        public bool IsExtraWork { get; set; } = false;
+        public decimal Summs { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-        public int ByWhom { get; set; }
+        public int ByWhomId { get; set; }
         public Master? Master { get; set; }
     }
 }
