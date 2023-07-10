@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.Abstractions
 {
-    public interface ICommand<out TResponse> : IRequest<TResponse>
+    public interface IQueryHandler<in TRequest, TResponse> : IRequestHandler<TRequest, TResponse> where TRequest : IQuery<TResponse>
     {
     }
 }

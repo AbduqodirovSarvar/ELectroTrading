@@ -23,6 +23,7 @@ namespace ElectroTrading.Infrastructure
                 => options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
 
             _services.AddScoped<IAppDbContext, AppDbContext>();
+            _services.AddScoped<ITokenService, TokenService>();
 
             _services.Configure<JWTConfiguration>(_config.GetSection("JWTConfiguration"));
 

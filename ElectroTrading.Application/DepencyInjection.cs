@@ -1,4 +1,6 @@
-﻿using ElectroTrading.Application.Abstractions;
+﻿using AutoMapper;
+using ElectroTrading.Application.Abstractions;
+using ElectroTrading.Application.Mapper;
 using ElectroTrading.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -18,6 +20,16 @@ namespace ElectroTrading.Application
                 cfg.RegisterServicesFromAssembly(typeof(DepencyInjection).Assembly);
             });
             _services.AddScoped<ICurrentUserService, CurrentUserService>();
+            _services.AddScoped<IHashService, HashService>();
+
+            var mappingconfig = new MapperConfiguration(x =>
+            {
+                x.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingconfig.CreateMapper();
+            _services.AddSingleton(mapper);
+
             return _services;
         }
     }
