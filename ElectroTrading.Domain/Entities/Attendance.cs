@@ -16,6 +16,6 @@ namespace ElectroTrading.Domain.Entities
         public bool IsExtraWork { get; set; } = false;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public int ByWhomId { get; set; }
-        public Master? Master { get; set; }
+        public User? Master { get; set; }
     }
 }

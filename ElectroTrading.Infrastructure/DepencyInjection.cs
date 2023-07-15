@@ -49,6 +49,11 @@ namespace ElectroTrading.Infrastructure
                     policy.RequireClaim(ClaimTypes.Role, "Admin");
                 });
 
+                option.AddPolicy("OwnerActions", policy =>
+                {
+                    policy.RequireClaim(ClaimTypes.Role, "Owner");
+                });
+
                 option.AddPolicy("MasterActions", policy =>
                 {
                     policy.RequireClaim(ClaimTypes.Role, "Master");

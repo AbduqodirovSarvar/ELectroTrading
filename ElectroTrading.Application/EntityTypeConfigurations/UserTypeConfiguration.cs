@@ -15,8 +15,6 @@ namespace ElectroTrading.Application.EntityTypeConfigurations
         {
             builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Phone).IsUnique();
-            builder.HasOne(x => x.Admin).WithOne(x => x.UserAdmin);
-            builder.HasOne(x => x.Employee).WithOne(x => x.UserEmployee);
         }
     }
 }

@@ -22,32 +22,6 @@ namespace ElectroTrading.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ElectroTrading.Domain.Entities.Admin", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Admins");
-                });
-
             modelBuilder.Entity("ElectroTrading.Domain.Entities.Attendance", b =>
                 {
                     b.Property<int>("Id")
@@ -100,6 +74,18 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Property<DateOnly>("JoinedDate")
                         .HasColumnType("date");
 
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Position")
                         .IsRequired()
                         .HasColumnType("text");
@@ -107,13 +93,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Property<decimal>("Salary")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -150,31 +130,6 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.ToTable("EmployeesDebts");
                 });
 
-            modelBuilder.Entity("ElectroTrading.Domain.Entities.Master", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Masters");
-                });
-
             modelBuilder.Entity("ElectroTrading.Domain.Entities.PaymentSalary", b =>
                 {
                     b.Property<int>("Id")
@@ -204,7 +159,7 @@ namespace ElectroTrading.Infrastructure.Migrations
 
                     b.HasIndex("MasterId");
 
-                    b.ToTable("PaymentSalary");
+                    b.ToTable("PaymentSalaries");
                 });
 
             modelBuilder.Entity("ElectroTrading.Domain.Entities.User", b =>
@@ -218,11 +173,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -230,20 +181,12 @@ namespace ElectroTrading.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("ElectroTrading.Domain.Entities.Admin", b =>
-                {
-                    b.HasOne("ElectroTrading.Domain.Entities.User", "UserAdmin")
-                        .WithOne("Admin")
-                        .HasForeignKey("ElectroTrading.Domain.Entities.Admin", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserAdmin");
                 });
 
             modelBuilder.Entity("ElectroTrading.Domain.Entities.Attendance", b =>
@@ -254,24 +197,13 @@ namespace ElectroTrading.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ElectroTrading.Domain.Entities.Master", "Master")
-                        .WithMany("Attendances")
+                    b.HasOne("ElectroTrading.Domain.Entities.User", "Master")
+                        .WithMany()
                         .HasForeignKey("MasterId");
 
                     b.Navigation("Employee");
 
                     b.Navigation("Master");
-                });
-
-            modelBuilder.Entity("ElectroTrading.Domain.Entities.Employee", b =>
-                {
-                    b.HasOne("ElectroTrading.Domain.Entities.User", "UserEmployee")
-                        .WithOne("Employee")
-                        .HasForeignKey("ElectroTrading.Domain.Entities.Employee", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserEmployee");
                 });
 
             modelBuilder.Entity("ElectroTrading.Domain.Entities.EmployeeDebt", b =>
@@ -282,24 +214,13 @@ namespace ElectroTrading.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ElectroTrading.Domain.Entities.Master", "Master")
-                        .WithMany("EmployeeDebts")
+                    b.HasOne("ElectroTrading.Domain.Entities.User", "Master")
+                        .WithMany()
                         .HasForeignKey("MasterId");
 
                     b.Navigation("Employee");
 
                     b.Navigation("Master");
-                });
-
-            modelBuilder.Entity("ElectroTrading.Domain.Entities.Master", b =>
-                {
-                    b.HasOne("ElectroTrading.Domain.Entities.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("ElectroTrading.Domain.Entities.PaymentSalary", b =>
@@ -310,8 +231,8 @@ namespace ElectroTrading.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ElectroTrading.Domain.Entities.Master", "Master")
-                        .WithMany("PaymentSalarys")
+                    b.HasOne("ElectroTrading.Domain.Entities.User", "Master")
+                        .WithMany()
                         .HasForeignKey("MasterId");
 
                     b.Navigation("Employee");
@@ -326,22 +247,6 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Navigation("EmployeeDebts");
 
                     b.Navigation("PaymentSalarys");
-                });
-
-            modelBuilder.Entity("ElectroTrading.Domain.Entities.Master", b =>
-                {
-                    b.Navigation("Attendances");
-
-                    b.Navigation("EmployeeDebts");
-
-                    b.Navigation("PaymentSalarys");
-                });
-
-            modelBuilder.Entity("ElectroTrading.Domain.Entities.User", b =>
-                {
-                    b.Navigation("Admin");
-
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

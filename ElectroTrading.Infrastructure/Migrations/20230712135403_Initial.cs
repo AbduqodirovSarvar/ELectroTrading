@@ -13,50 +13,15 @@ namespace ElectroTrading.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Employees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
-                    Phone = table.Column<string>(type: "text", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Admins",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Admins_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
                     Position = table.Column<string>(type: "text", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
                     Salary = table.Column<decimal>(type: "numeric", nullable: false),
                     JoinedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
@@ -64,33 +29,22 @@ namespace ElectroTrading.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Employees_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Masters",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    EmployeeId = table.Column<int>(type: "integer", nullable: false),
+                    Phone = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Role = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Masters", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Masters_Employees_EmployeeId",
-                        column: x => x.EmployeeId,
-                        principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,9 +71,9 @@ namespace ElectroTrading.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Attendances_Masters_MasterId",
+                        name: "FK_Attendances_Users_MasterId",
                         column: x => x.MasterId,
-                        principalTable: "Masters",
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
@@ -145,14 +99,14 @@ namespace ElectroTrading.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EmployeesDebts_Masters_MasterId",
+                        name: "FK_EmployeesDebts_Users_MasterId",
                         column: x => x.MasterId,
-                        principalTable: "Masters",
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "PaymentSalary",
+                name: "PaymentSalaries",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -165,25 +119,19 @@ namespace ElectroTrading.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PaymentSalary", x => x.Id);
+                    table.PrimaryKey("PK_PaymentSalaries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PaymentSalary_Employees_EmployeeId",
+                        name: "FK_PaymentSalaries_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PaymentSalary_Masters_MasterId",
+                        name: "FK_PaymentSalaries_Users_MasterId",
                         column: x => x.MasterId,
-                        principalTable: "Masters",
+                        principalTable: "Users",
                         principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Admins_UserId",
-                table: "Admins",
-                column: "UserId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",
@@ -196,12 +144,6 @@ namespace ElectroTrading.Infrastructure.Migrations
                 column: "MasterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_UserId",
-                table: "Employees",
-                column: "UserId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_EmployeesDebts_EmployeeId",
                 table: "EmployeesDebts",
                 column: "EmployeeId");
@@ -212,18 +154,13 @@ namespace ElectroTrading.Infrastructure.Migrations
                 column: "MasterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Masters_EmployeeId",
-                table: "Masters",
+                name: "IX_PaymentSalaries_EmployeeId",
+                table: "PaymentSalaries",
                 column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentSalary_EmployeeId",
-                table: "PaymentSalary",
-                column: "EmployeeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PaymentSalary_MasterId",
-                table: "PaymentSalary",
+                name: "IX_PaymentSalaries_MasterId",
+                table: "PaymentSalaries",
                 column: "MasterId");
         }
 
@@ -231,19 +168,13 @@ namespace ElectroTrading.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Admins");
-
-            migrationBuilder.DropTable(
                 name: "Attendances");
 
             migrationBuilder.DropTable(
                 name: "EmployeesDebts");
 
             migrationBuilder.DropTable(
-                name: "PaymentSalary");
-
-            migrationBuilder.DropTable(
-                name: "Masters");
+                name: "PaymentSalaries");
 
             migrationBuilder.DropTable(
                 name: "Employees");

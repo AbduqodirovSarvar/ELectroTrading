@@ -14,11 +14,10 @@ namespace ElectroTrading.Infrastructure.DbContexts
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) { }
         public DbSet<User> Users { get; set; }
-        public DbSet<Admin> Admins { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Master> Masters { get; set; }
         public DbSet<EmployeeDebt> EmployeesDebts { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<PaymentSalary> PaymentSalaries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

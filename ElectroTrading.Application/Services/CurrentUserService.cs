@@ -12,7 +12,7 @@ namespace ElectroTrading.Application.Services
     public class CurrentUserService : ICurrentUserService
     {
         public int UserId { get; set; }
-        public CurrentUserService(IHttpContextAccessor _contextAccessor)
+       /* public CurrentUserService(IHttpContextAccessor _contextAccessor)
         {
             var userClaims = _contextAccessor.HttpContext!.User.Claims;
             var idClaim = userClaims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
@@ -20,6 +20,6 @@ namespace ElectroTrading.Application.Services
             {
                 UserId = value;
             }
-        }
+        }*/
     }
 }

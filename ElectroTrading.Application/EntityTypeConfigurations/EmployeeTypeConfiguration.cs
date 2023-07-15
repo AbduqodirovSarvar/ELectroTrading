@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.EntityTypeConfigurations
 {
-    public class EmployeeTypeConfiguration : IEntityTypeConfiguration<Master>
+    public class EmployeeTypeConfiguration : IEntityTypeConfiguration<Employee>
     {
-        public void Configure(EntityTypeBuilder<Master> builder)
+        public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasIndex(x => x.EmployeeId).IsUnique();
-            builder.HasMany(x => x.Attendances).WithOne(x => x.Master).HasForeignKey(x => x.EmployeeId);
-            builder.HasMany(x => x.EmployeeDebts).WithOne(x => x.Master).HasForeignKey(x => x.EmployeeId);
-            builder.HasMany(x => x.PaymentSalarys).WithOne(x => x.Master).HasForeignKey(x => x.EmployeeId);
+            builder.HasIndex(x => x.Phone).IsUnique();
+            builder.HasMany(x => x.Attendances).WithOne(x => x.Employee).HasForeignKey(x => x.EmployeeId);
+            builder.HasMany(x => x.EmployeeDebts).WithOne(x => x.Employee).HasForeignKey(x => x.EmployeeId);
+            builder.HasMany(x => x.PaymentSalarys).WithOne(x => x.Employee).HasForeignKey(x => x.EmployeeId);
         }
     }
 }
