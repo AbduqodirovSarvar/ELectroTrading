@@ -1,4 +1,5 @@
 ﻿using ElectroTrading.Application.Abstractions;
+using ElectroTrading.Application.Exceptions;
 using ElectroTrading.Application.Models.ViewModels;
 using ElectroTrading.Application.UseCase.Authorizes.Commands;
 using Microsoft.EntityFrameworkCore;
@@ -28,8 +29,7 @@ namespace ElectroTrading.Application.UseCase.Authorizes.CommandHandlers
             var viewModel = new LoginViewModel();
             if (user == null || user.Password != _hashService.GetHash(request.Password))
             {
-                viewModel.Status = System.Net.HttpStatusCode.NotFound;
-                return viewModel;
+                throw new LoginException();
             }
 
             var claims = new List<Claim>

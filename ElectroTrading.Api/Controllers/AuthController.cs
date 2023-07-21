@@ -20,8 +20,15 @@ namespace ElectroTrading.Api.Controllers
         [HttpPost("Login")]
         public async Task<LoginViewModel> Login(string login, string password)
         {
-            LoginViewModel result = await _mediator.Send(new LoginCommand(login, password));
-            return result;
+            try
+            {
+                LoginViewModel result = await _mediator.Send(new LoginCommand(login, password));
+                return result;
+            }
+            catch
+            {
+                return new LoginViewModel { Status = System.Net.HttpStatusCode.NotFound };
+            }
         }
     }
 }
