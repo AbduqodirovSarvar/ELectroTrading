@@ -15,6 +15,12 @@ namespace ElectroTrading.Application.Abstractions
         public DbSet<EmployeeDebt> EmployeesDebts { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<PaymentSalary> PaymentSalaries { get; set; }
+        public DbSet<BoughtAndSoldProduct> BoughtAndSoldsProducts { get; set; }
+        public DbSet<FinishedProduct> FinishedProducts { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductComposition> ProductCompositions { get; set; }
+        public DbSet<Storage> Storages { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken token = default);
     }

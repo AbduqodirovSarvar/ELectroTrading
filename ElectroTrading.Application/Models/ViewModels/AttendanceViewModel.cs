@@ -14,6 +14,7 @@ namespace ElectroTrading.Application.Models.ViewModels
         public DateOnly Day { get; set; }
         public bool IsMainWork { get; set; }
         public bool IsExtraWork { get; set; }
+        public double ExtraWorkHours { get; set; }
         public DateTime CreatedDate { get; set; }
         public int ByWhomId { get; set; }
     }

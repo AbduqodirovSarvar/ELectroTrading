@@ -1,7 +1,4 @@
-﻿using ElectroTrading.Application.UseCase.Attendances.Commands;
-using ElectroTrading.Application.UseCase.Attendances.Queries;
-using ElectroTrading.Application.UseCase.Users.Queries;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +14,7 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Create")]
+       /* [HttpPost("Create")]
         public async Task<IActionResult> CreateAttendance([FromBody] AttendanceCreateCommand command)
         {
             try
@@ -58,6 +55,6 @@ namespace ElectroTrading.Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }*/
     }
 }

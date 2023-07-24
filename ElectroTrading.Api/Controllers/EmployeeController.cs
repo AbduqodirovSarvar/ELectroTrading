@@ -1,6 +1,4 @@
 ﻿using ElectroTrading.Application.Models.ViewModels;
-using ElectroTrading.Application.UseCase.Users.Commands;
-using ElectroTrading.Application.UseCase.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +15,15 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Create")]
-        public async Task<EmployeeViewModel> CreateEmployee([FromBody] EmployeeCreateCommand createDto)
+       /* [HttpPost("Create")]
+        public async Task<EmployeeViewModel> CreateEmployee([FromBody] int createDto)
         {
             var result = await _mediator.Send(createDto);
             return result;
         }
 
         [HttpPatch("Update")]
-        public async Task<EmployeeViewModel> UpdateEmployee(EmployeeUpdateCommand updateDto)
+        public async Task<EmployeeViewModel> UpdateEmployee(int updateDto)
         {
             var result = await _mediator.Send(updateDto);
             return result;
@@ -33,13 +31,13 @@ namespace ElectroTrading.Api.Controllers
         [HttpDelete("{Id}")]
         public async Task<EmployeeViewModel> DeleteEmployee(int Id)
         {
-            var result = await _mediator.Send(new EmployeeDeleteCommand(Id));
+            var result = await _mediator.Send(Id);
             return result;
         }
         [HttpGet("All")]
         public async Task<List<EmployeeViewModel>> GetAllEmployees()
         {
-            var result = await _mediator.Send(new EmployeeGetAllQuery());
+            var result = await _mediator.Send(new Object());
             return result;
         }
 
@@ -57,6 +55,6 @@ namespace ElectroTrading.Api.Controllers
                 return BadRequest(ex.Message);
             }
 
-        }
+        }*/
     }
 }

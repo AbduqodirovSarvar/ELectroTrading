@@ -1,7 +1,5 @@
 ﻿using ElectroTrading.Application.Models.DTOs;
 using ElectroTrading.Application.Models.ViewModels;
-using ElectroTrading.Application.UseCase.Users.Commands;
-using ElectroTrading.Application.UseCase.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +15,7 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateUser([FromBody] UserAddCommand command)
+        public async Task<IActionResult> CreateUser([FromBody]int command)
         {
             try
             {
@@ -31,7 +29,7 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpPatch("Update")]
-        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateCommand command)
+        public async Task<IActionResult> UpdateUser([FromBody] int command)
         {
             try
             {
@@ -49,7 +47,7 @@ namespace ElectroTrading.Api.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new UserDeleteCommand(Id));
+                var result = await _mediator.Send(Id);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -11,11 +11,14 @@ namespace ElectroTrading.Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public string? PassportId { get; set; } = null;
         public string Position { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
         public decimal Salary { get; set; }
-        public DateOnly JoinedDate { get; set; } = new DateOnly(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day);
+        public DateOnly Experience { get; set; } = new DateOnly(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day);
         public DateTime CreatedTime { get; set; } = DateTime.UtcNow;
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedDate { get; set; } = null;
         public ICollection<PaymentSalary> PaymentSalarys { get; set; } = new HashSet<PaymentSalary>();
         public ICollection<Attendance> Attendances { get; set; } = new HashSet<Attendance>();
         public ICollection<EmployeeDebt> EmployeeDebts { get; set; } = new HashSet<EmployeeDebt>();
