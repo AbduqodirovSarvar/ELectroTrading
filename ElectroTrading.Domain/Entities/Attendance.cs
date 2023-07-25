@@ -13,7 +13,7 @@ namespace ElectroTrading.Domain.Entities
         public Employee? Employee { get; set; }
         public DateOnly Day { get; set; } = new DateOnly(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day);
         public bool IsMainWork { get; set; } = false;
-        public bool IsExtraWork { get; set; } = false;
+        public double LateHours { get; set; } = 0;
         public double ExtraWorkHours { get; set; } = 0;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public int ByWhomId { get; set; }

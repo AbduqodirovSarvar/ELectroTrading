@@ -11,6 +11,7 @@ namespace ElectroTrading.Application.UseCase.Users.Queries
 {
     public class GetUserQuery : IQuery<UserViewModel>
     {
+        public GetUserQuery(int id ) { Id = id; }
         [Required]
         public int Id { get; set; }
     }

@@ -20,11 +20,14 @@ namespace ElectroTrading.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
+                    PassportId = table.Column<string>(type: "text", nullable: true),
                     Position = table.Column<string>(type: "text", nullable: false),
                     Phone = table.Column<string>(type: "text", nullable: false),
                     Salary = table.Column<decimal>(type: "numeric", nullable: false),
-                    JoinedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Experience = table.Column<DateOnly>(type: "date", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DeletedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -270,6 +273,11 @@ namespace ElectroTrading.Infrastructure.Migrations
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "CreatedDate", "Password", "Phone", "Role" },
+                values: new object[] { 1, new DateTime(2023, 7, 24, 16, 43, 0, 180, DateTimeKind.Utc).AddTicks(3265), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",

@@ -1,4 +1,5 @@
 ﻿using ElectroTrading.Application.Abstractions;
+using ElectroTrading.Application.Services;
 using ElectroTrading.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -11,8 +12,12 @@ namespace ElectroTrading.Infrastructure.DbContexts
 {
     public class AppDbContext : DbContext, IAppDbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options) { }
+        private readonly IHashService _hashService;
+        public AppDbContext(DbContextOptions<AppDbContext> options, IHashService hashService)
+            : base(options) 
+        {
+            _hashService = hashService;
+        }
         public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeDebt> EmployeesDebts { get; set; }
@@ -43,7 +48,15 @@ namespace ElectroTrading.Infrastructure.DbContexts
                 .HasOne(pc => pc.Composition)
                 .WithMany()
                 .HasForeignKey(pc => pc.CompositionId);
-                /*.OnDelete(DeleteBehavior.Restrict);*/
+            /*.OnDelete(DeleteBehavior.Restrict);*/
+            modelBuilder.Entity<User>().HasData(new User
+            {
+                Id = 1,
+                Phone = "ElectroTradingAdmin",
+                Password = _hashService.GetHash("DefaultAdminPassword"),
+                Role = Domain.Enum.UserRole.Admin,
+                CreatedDate = DateTime.UtcNow
+            });
         }
     }
 }

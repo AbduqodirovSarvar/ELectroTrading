@@ -45,9 +45,6 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Property<double>("ExtraWorkHours")
                         .HasColumnType("double precision");
 
-                    b.Property<bool>("IsExtraWork")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsMainWork")
                         .HasColumnType("boolean");
 
@@ -381,6 +378,16 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2023, 7, 24, 19, 48, 9, 304, DateTimeKind.Utc).AddTicks(8565),
+                            Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
+                            Phone = "ElectroTradingAdmin",
+                            Role = 2
+                        });
                 });
 
             modelBuilder.Entity("ElectroTrading.Domain.Entities.Attendance", b =>

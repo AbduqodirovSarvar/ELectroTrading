@@ -10,6 +10,7 @@ namespace ElectroTrading.Application.UseCase.Users.Commands
 {
     public class DeleteEmployeeCommand : ICommand<bool>
     {
+        public DeleteEmployeeCommand(int id) { Id = id; }
         [Required]
         public int Id { get; set; }
     }

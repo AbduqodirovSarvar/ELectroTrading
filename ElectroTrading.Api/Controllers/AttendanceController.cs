@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using ElectroTrading.Application.UseCase.Attendances.Commands;
+using ElectroTrading.Application.UseCase.Attendances.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,13 +16,26 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
-       /* [HttpPost("Create")]
-        public async Task<IActionResult> CreateAttendance([FromBody] AttendanceCreateCommand command)
+        [HttpPost]
+        public async Task<IActionResult> CreateAttendance([FromBody] CreateAttendanceCommand command)
         {
             try
             {
-                var result = await _mediator.Send(command);
-                return Ok(result);
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("{Id}")]
+        public async Task<IActionResult> GetAttendance([FromRoute] int Id)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(new GetAttendanceQuery(Id)));
             }
             catch (Exception ex)
             {
@@ -29,32 +44,28 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllAttendanceByFilter([FromQuery] GetAllAttendanceByFilterQuery query)
         {
-            var result = await _mediator.Send(new AttendancesGetAllQuery());
-            return Ok(result);
+            return Ok(await _mediator.Send(query));
         }
 
-        [HttpGet]
-        [Route("All/Employee/{Id}")]
-        public async Task<IActionResult> GetAllAttendances([FromRoute] int Id)
-        {
-            var result = await _mediator.Send(new EmployeeGetAllAttendancesQuery(Id));
-            return Ok(result);
-        }
-
-        [HttpPatch("Update/ForEmployee")]
-        public async Task<IActionResult> UpdateAttendance([FromBody] AttendanceUpdateCommand command)
+        [HttpPatch]
+        public async Task<IActionResult> UpdateAttendance([FromBody] UpdateAttendanceCommand command)
         {
             try
             {
-                var result = await _mediator.Send(command);
-                return Ok(result);
+                return Ok(await _mediator.Send(command));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }*/
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAttendance([FromBody] DeleteAttendanceCommand command)
+        {
+            return Ok(await _mediator.Send(command));
+        }
     }
 }

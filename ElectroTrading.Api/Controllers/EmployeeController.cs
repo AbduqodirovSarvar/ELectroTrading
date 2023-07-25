@@ -1,4 +1,6 @@
 ﻿using ElectroTrading.Application.Models.ViewModels;
+using ElectroTrading.Application.UseCase.Users.Commands;
+using ElectroTrading.Application.UseCase.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,47 +16,64 @@ namespace ElectroTrading.Api.Controllers
         {
             _mediator = mediator;
         }
-
-       /* [HttpPost("Create")]
-        public async Task<EmployeeViewModel> CreateEmployee([FromBody] int createDto)
-        {
-            var result = await _mediator.Send(createDto);
-            return result;
-        }
-
-        [HttpPatch("Update")]
-        public async Task<EmployeeViewModel> UpdateEmployee(int updateDto)
-        {
-            var result = await _mediator.Send(updateDto);
-            return result;
-        }
-        [HttpDelete("{Id}")]
-        public async Task<EmployeeViewModel> DeleteEmployee(int Id)
-        {
-            var result = await _mediator.Send(Id);
-            return result;
-        }
-        [HttpGet("All")]
-        public async Task<List<EmployeeViewModel>> GetAllEmployees()
-        {
-            var result = await _mediator.Send(new Object());
-            return result;
-        }
-
-        [HttpGet]
-        [Route("{Id}")]
-        public async Task<IActionResult> GetEmployee([FromRoute] int Id)
+        [HttpPost]
+        public async Task<IActionResult> CreateEmployee([FromBody] CreateEmployeeCommand command)
         {
             try
             {
-                var result = await _mediator.Send(new EmployeeGetQuery(Id));
-                return Ok(result);
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("{EmployeeId}")]
+        public async Task<IActionResult> GetEmployee([FromRoute] int EmployeeId)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(new GetEmployeeQuery(EmployeeId)));
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
 
-        }*/
+        }
+        [HttpDelete]
+        [Route("{Id}")]
+        public async Task<IActionResult> DeleteEmployee([FromRoute] int Id)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(new DeleteEmployeeCommand(Id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAllEmployeeByFilter([FromBody] GetAllEmployeeByFilterQuery query)
+        {
+            return Ok(await _mediator.Send(query));
+        }
     }
 }

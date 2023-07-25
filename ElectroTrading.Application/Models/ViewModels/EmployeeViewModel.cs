@@ -18,5 +18,6 @@ namespace ElectroTrading.Application.Models.ViewModels
         public bool IsDeleted { get; set; }
         public DateTime? DeletedDate { get; set; }
         public DateOnly Experience { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

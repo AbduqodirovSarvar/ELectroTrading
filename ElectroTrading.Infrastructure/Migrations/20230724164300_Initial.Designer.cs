@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElectroTrading.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230724135449_Initial")]
+    [Migration("20230724164300_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -111,8 +111,14 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateOnly>("JoinedDate")
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateOnly>("Experience")
                         .HasColumnType("date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -120,6 +126,9 @@ namespace ElectroTrading.Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PassportId")
                         .HasColumnType("text");
 
                     b.Property<string>("Phone")
@@ -375,6 +384,16 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2023, 7, 24, 16, 43, 0, 180, DateTimeKind.Utc).AddTicks(3265),
+                            Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
+                            Phone = "ElectroTradingAdmin",
+                            Role = 2
+                        });
                 });
 
             modelBuilder.Entity("ElectroTrading.Domain.Entities.Attendance", b =>

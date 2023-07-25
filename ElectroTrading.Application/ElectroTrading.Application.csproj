@@ -18,18 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCase\Attendances\CommandHandlers\" />
-    <Folder Include="UseCase\Attendances\QueryHandlers\" />
-    <Folder Include="UseCase\Orders\CommandHandlers\" />
-    <Folder Include="UseCase\Orders\QueryHandlers\" />
+    <Folder Include="UseCase\BSProducts\Commands\" />
+    <Folder Include="UseCase\BSProducts\CommandHandlers\" />
+    <Folder Include="UseCase\BSProducts\QueryHandlers\" />
+    <Folder Include="UseCase\BSProducts\Queries\" />
     <Folder Include="UseCase\Products\CommandHandlers\" />
     <Folder Include="UseCase\Products\QueryHandlers\" />
-    <Folder Include="UseCase\Salary\Commands\" />
     <Folder Include="UseCase\Salary\CommandHandlers\" />
-    <Folder Include="UseCase\Salary\QueryHandlers\" />
-    <Folder Include="UseCase\Salary\Queries\" />
-    <Folder Include="UseCase\Users\CommandHandlers\" />
-    <Folder Include="UseCase\Users\QueryHandlers\" />
   </ItemGroup>
 
 </Project>
