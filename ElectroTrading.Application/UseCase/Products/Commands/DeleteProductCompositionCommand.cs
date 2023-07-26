@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ElectroTrading.Application.UseCase.Salary.Commands
+namespace ElectroTrading.Application.UseCase.Products.Commands
 {
-    public class DeleteSalaryCommand : ICommand<bool>
+    public class DeleteProductCompositionCommand : ICommand<bool>
     {
-        public DeleteSalaryCommand(int id) { SalaryId = id; }
+        public DeleteProductCompositionCommand(int id ) { CompositionId = id; }
         [Required]
-        public int SalaryId { get; set; }
+        public int CompositionId { get; set; }
     }
 }

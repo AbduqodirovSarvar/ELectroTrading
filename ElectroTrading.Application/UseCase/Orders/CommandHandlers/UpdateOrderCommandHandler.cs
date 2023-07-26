@@ -23,7 +23,7 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
         }
         public async Task<OrderViewModel> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
+            var order = await _context.Orders.Include(x => x.Product).FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
             if (order == null)
                 throw new NotFoundException();
 
@@ -38,7 +38,12 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
                 order.SubmitDate = DateTime.UtcNow;
             }
 
-            return _mapper.Map<OrderViewModel>(order);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            var view = _mapper.Map<OrderViewModel>(order);
+            view.Product = _mapper.Map<ProductViewModel>(order.Product);
+
+            return view;
         }
     }
 }

@@ -17,12 +17,12 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("Login")]
-        public async Task<LoginViewModel> Login(string login, string password)
+        [HttpPost]
+        public async Task<LoginViewModel> Login([FromBody] LoginCommand command)
         {
             try
             {
-                LoginViewModel result = await _mediator.Send(new LoginCommand(login, password));
+                LoginViewModel result = await _mediator.Send(command);
                 return result;
             }
             catch

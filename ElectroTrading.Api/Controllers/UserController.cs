@@ -31,7 +31,7 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpGet]
-        [Route("Id")]
+        [Route("{Id}")]
         public async Task<IActionResult> GetUser([FromRoute] int Id)
         {
             try
@@ -45,9 +45,9 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<IActionResult> GetAllUser([FromBody] GetAllUserQuery query)
+        public async Task<IActionResult> GetAllUser()
         {
-            return Ok(await _mediator.Send(query));
+            return Ok(await _mediator.Send(new GetAllUserQuery()));
         }
 
         [HttpPatch]
@@ -63,9 +63,8 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("{Id}")]
-        public async Task<IActionResult> DeleteUser([FromRoute] int Id)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> DeleteUser(int Id)
         {
             try
             {

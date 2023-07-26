@@ -38,7 +38,7 @@ namespace ElectroTrading.Application.UseCase.Orders.QueryHandlers
                 if (product == null)
                     throw new NotFoundException();
 
-                view.ProductName = product.Name;
+                view.Product = _mapper.Map<ProductViewModel>(product);
                 orderViews.Add(view);
             }
             return orderViews;

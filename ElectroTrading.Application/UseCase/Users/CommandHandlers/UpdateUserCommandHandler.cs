@@ -36,6 +36,8 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
             {
                 user.Password = _hashService.GetHash(request.Password);
             }
+
+            await _context.SaveChangesAsync(cancellationToken);
             
             return _mapper.Map<UserViewModel>(user);
         }

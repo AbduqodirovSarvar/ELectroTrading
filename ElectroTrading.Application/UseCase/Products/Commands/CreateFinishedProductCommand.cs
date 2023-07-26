@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.UseCase.Products.Commands
 {
-    internal class DeleteProductComposition
+    public class CreateFinishedProductCommand
     {
     }
 }

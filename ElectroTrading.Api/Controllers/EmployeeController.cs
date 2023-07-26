@@ -71,7 +71,7 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<IActionResult> GetAllEmployeeByFilter([FromBody] GetAllEmployeeByFilterQuery query)
+        public async Task<IActionResult> GetAllEmployeeByFilter([FromQuery] GetAllEmployeeByFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

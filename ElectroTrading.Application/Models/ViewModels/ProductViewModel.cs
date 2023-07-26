@@ -1,4 +1,5 @@
-﻿using ElectroTrading.Domain.Enum;
+﻿using ElectroTrading.Domain.Entities;
+using ElectroTrading.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace ElectroTrading.Application.Models.ViewModels
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public CategoryUnity Category { get; set; }
+        public List<ProductCompositionViewModel> Compositions { get; set; } = new List<ProductCompositionViewModel>();
         public DateTime CreatedDate { get; set; }
     }
 }

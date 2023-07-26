@@ -24,19 +24,12 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
         public async Task<List<EmployeeViewModel>> Handle(GetAllEmployeeByFilterQuery request, CancellationToken cancellationToken)
         {
             var employees = await _context.Employees.ToListAsync(cancellationToken);
-            if (request?.Year != null)
-            {
-                employees = employees.Where(x => (x.IsDeleted == false) | (x.DeletedDate != null && x.DeletedDate.Value.Year <= request.Year)).ToList();
-            }
-
             if (request?.Month != null)
             {
-                employees = employees.Where(x => (x.IsDeleted == false) | (x.DeletedDate != null && x.DeletedDate.Value.Month <= request.Month)).ToList();
-            }
-
-            if (request?.Day != null) 
-            {
-                employees = employees.Where(x => (x.IsDeleted == false) | (x.DeletedDate != null && x.DeletedDate.Value.Day <= request.Day)).ToList();
+                employees = employees
+                    .Where(x =>(x.IsDeleted == false) || (x.DeletedDate != null 
+                        && x.DeletedDate.Value.Year >= request.Month.Value.Year 
+                            && x.DeletedDate.Value.Month >= request.Month.Value.Month)).ToList();
             }
 
             return _mapper.Map<List<EmployeeViewModel>>(employees);

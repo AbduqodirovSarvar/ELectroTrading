@@ -34,10 +34,11 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
 
             await _context.Orders.AddAsync(order, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+
             OrderViewModel view = _mapper.Map<OrderViewModel>(order);
-            view.ProductName = product.Name;
-            return view;
+            view.Product = _mapper.Map<ProductViewModel>(product);
             
+            return view;
         }
     }
 }

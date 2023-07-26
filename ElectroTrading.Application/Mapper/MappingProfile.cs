@@ -2,6 +2,7 @@
 using ElectroTrading.Application.Models.DTOs;
 using ElectroTrading.Application.Models.ViewModels;
 using ElectroTrading.Application.UseCase.Orders.Commands;
+using ElectroTrading.Application.UseCase.Salary.Commands;
 using ElectroTrading.Application.UseCase.Users.Commands;
 using ElectroTrading.Domain.Entities;
 using System;
@@ -24,7 +25,10 @@ namespace ElectroTrading.Application.Mapper
             CreateMap<Attendance, AttendanceViewModel>().ReverseMap();
             CreateMap<Order, OrderViewModel>().ReverseMap();
             CreateMap<CreateOrderCommand, Order>().ReverseMap();
-
+            CreateMap<CreateDebtCommand, EmployeeDebt>().ReverseMap();
+            CreateMap<EmployeeDebt, DebtViewModel>().ReverseMap();
+            CreateMap<CreateSalaryPaymentCommand, PaymentSalary>().ReverseMap();
+            CreateMap<PaymentSalary, SalaryViewModel>().ReverseMap();
         }
     }
 }

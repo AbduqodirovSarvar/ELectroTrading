@@ -32,7 +32,10 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
             Employee createEmployee = _mapper.Map<Employee>(request);
             createEmployee.CreatedTime = DateTime.UtcNow;
 
-            return _mapper.Map<EmployeeViewModel>(await _context.Employees.FirstOrDefaultAsync(x => x.Phone == createEmployee.Phone, cancellationToken));
+            await _context.Employees.AddAsync(createEmployee, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            //await _context.Employees.FirstOrDefaultAsync(x => x.Phone == createEmployee.Phone, cancellationToken);
+            return _mapper.Map<EmployeeViewModel>(createEmployee);
         }
     }
 }

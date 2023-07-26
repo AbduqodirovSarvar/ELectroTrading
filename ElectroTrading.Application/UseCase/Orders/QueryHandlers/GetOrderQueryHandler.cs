@@ -24,15 +24,13 @@ namespace ElectroTrading.Application.UseCase.Orders.QueryHandlers
 
         public async Task<OrderViewModel> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
-            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
+            var order = await _context.Orders.Include(x => x.Product).FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
             if (order == null)
                 throw new NotFoundException();
 
             var view = _mapper.Map<OrderViewModel>(order);
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == order.ProductId, cancellationToken);
-            if (product == null)
-                throw new NotFoundException();
-            view.ProductName = product.Name;
+            view.Product = _mapper.Map<ProductViewModel>(order);
+
             return view;
         }
     }

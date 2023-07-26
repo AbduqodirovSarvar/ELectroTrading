@@ -39,6 +39,8 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
                 employee.DeletedDate = DateTime.UtcNow;
             }
 
+            await _context.SaveChangesAsync(cancellationToken);
+
             return _mapper.Map<EmployeeViewModel>(employee);
         }
     }

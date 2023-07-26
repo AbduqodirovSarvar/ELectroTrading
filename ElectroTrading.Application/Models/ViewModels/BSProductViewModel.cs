@@ -11,8 +11,9 @@ namespace ElectroTrading.Application.Models.ViewModels
 {
     public class BSProductViewModel
     {
+        public int Id { get; set; }
         public int ProductId { get; set; }
-        public string ProductName { get; set; } = string.Empty;
+        public ProductViewModel? Product { get; set; }
         public string Description { get; set; } = string.Empty;
         public double Amount { get; set; }
         public decimal Price { get; set; }

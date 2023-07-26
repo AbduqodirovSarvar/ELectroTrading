@@ -38,7 +38,7 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
             await _context.Users.AddAsync(createUser, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<UserViewModel>(await _context.Users.FirstOrDefaultAsync(x => x.Phone == createUser.Phone, cancellationToken));
+            return _mapper.Map<UserViewModel>(createUser);
         }
     }
 }

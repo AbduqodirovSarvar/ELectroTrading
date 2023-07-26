@@ -10,6 +10,7 @@ namespace ElectroTrading.Application.UseCase.Orders.Queries
 {
     public class GetAllOrderByFilterQuery : IQuery<List<OrderViewModel>>
     {
+        public GetAllOrderByFilterQuery() { }
         public bool? IsSubmitted { get; set; }
 
     }

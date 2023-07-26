@@ -24,7 +24,9 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
             if (employee == null)
                 throw new NotFoundException();
 
-            _context.Employees.Remove(employee);
+            employee.IsDeleted = true;
+            employee.DeletedDate = DateTime.UtcNow;
+
             return (await _context.SaveChangesAsync(cancellationToken)) > 0;
         }
     }

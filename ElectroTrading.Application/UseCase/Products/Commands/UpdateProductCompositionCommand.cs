@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.UseCase.Products.Commands
 {
-    public class UpdateProductComposition
+    public class UpdateProductCompositionCommand
     {
     }
 }

@@ -16,6 +16,9 @@ namespace ElectroTrading.Application.Models.ViewModels
         public string Phone { get; set; } = string.Empty;
         public decimal Salary { get; set; }
         public bool IsDeleted { get; set; }
+        public List<AttendanceViewModel>? Attendances { get; set; }
+        public List<SalaryViewModel>? Salaries { get; set; }
+        public List<DebtViewModel>? Debts { get; set; }
         public DateTime? DeletedDate { get; set; }
         public DateOnly Experience { get; set; }
         public DateTime CreatedDate { get; set; }
