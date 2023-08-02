@@ -1,5 +1,7 @@
 ﻿using ElectroTrading.Application.Abstractions;
+using ElectroTrading.Application.Exceptions;
 using ElectroTrading.Application.UseCase.Products.Commands;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,33 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
 {
     public class DeleteProductCompositionCommandHandler : ICommandHandler<DeleteProductCompositionCommand, bool>
     {
-        public Task<bool> Handle(DeleteProductCompositionCommand request, CancellationToken cancellationToken)
+        private readonly IAppDbContext _context;
+        public DeleteProductCompositionCommandHandler(IAppDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task<bool> Handle(DeleteProductCompositionCommand request, CancellationToken cancellationToken)
+        {
+            var product = await _context.Products.Include(x => x.Compositions).FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
+            if (product == null)
+            {
+                throw new NotFoundException();
+            }
+
+            if(request?.CompositionIds != null)
+            {
+                foreach(var id in request.CompositionIds)
+                {
+                    var comp = product.Compositions.FirstOrDefault(x => x.Id == id);
+                    if (comp == null)
+                        continue;
+                    product.Compositions.Remove(comp);
+                }
+            }
+
+
+            return (await _context.SaveChangesAsync(cancellationToken)) > 0;
         }
     }
 }

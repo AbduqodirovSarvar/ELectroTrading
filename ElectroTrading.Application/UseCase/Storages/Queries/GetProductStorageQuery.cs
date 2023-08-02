@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Application.UseCase.Products.Queries
+namespace ElectroTrading.Application.UseCase.Storages.Queries
 {
-    public class GetProductQuery : IQuery<ProductViewModel>
+    public class GetProductStorageQuery : IQuery<StorageViewModel>
     {
-        public GetProductQuery(int id ) { Id = id; }
+        public GetProductStorageQuery(int id ) { Id = id; }
         [Required]
         public int Id { get; set; }
     }

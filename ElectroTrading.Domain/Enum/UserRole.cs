@@ -8,6 +8,6 @@ namespace ElectroTrading.Domain.Enum
 {
     public enum UserRole
     {
-        Employee = 0, Owner = 1, Admin = 2, Master = 3
+        Employee = 0, Owner = 1, Admin = 2
     }
 }

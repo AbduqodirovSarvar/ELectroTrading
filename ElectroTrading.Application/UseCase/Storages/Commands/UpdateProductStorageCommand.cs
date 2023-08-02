@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Application.UseCase.Products.Queries
+namespace ElectroTrading.Application.UseCase.Storages.Commands
 {
-    public class GetProductQuery : IQuery<ProductViewModel>
+    public class UpdateProductStorageCommand : ICommand<StorageViewModel>
     {
-        public GetProductQuery(int id ) { Id = id; }
         [Required]
         public int Id { get; set; }
+        public double? Amount { get; set; } = null;
     }
 }

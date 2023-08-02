@@ -1,19 +1,18 @@
 ﻿using ElectroTrading.Application.Abstractions;
+using ElectroTrading.Application.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
-namespace ElectroTrading.Application.UseCase.Products.Commands
+namespace ElectroTrading.Application.UseCase.Storages.Commands
 {
-    public class DeleteProductCompositionCommand : ICommand<bool>
+    public class AddProductStorageCommand : ICommand<StorageViewModel>
     {
-        public DeleteProductCompositionCommand() { }
         [Required]
         public int ProductId { get; set; }
-        public List<int> CompositionIds { get; set; } = new List<int>();
+        public double Amount { get; set; }
     }
 }

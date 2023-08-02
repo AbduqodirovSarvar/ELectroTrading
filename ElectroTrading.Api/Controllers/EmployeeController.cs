@@ -57,7 +57,7 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
-        [HttpPatch]
+        [HttpPatch("Update")]
         public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeCommand command)
         {
             try

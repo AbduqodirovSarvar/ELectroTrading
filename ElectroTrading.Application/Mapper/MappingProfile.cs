@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using ElectroTrading.Application.Models.DTOs;
 using ElectroTrading.Application.Models.ViewModels;
+using ElectroTrading.Application.UseCase.BSProducts.Commands;
 using ElectroTrading.Application.UseCase.Orders.Commands;
+using ElectroTrading.Application.UseCase.Products.Commands;
 using ElectroTrading.Application.UseCase.Salary.Commands;
+using ElectroTrading.Application.UseCase.Storages.Commands;
 using ElectroTrading.Application.UseCase.Users.Commands;
 using ElectroTrading.Domain.Entities;
 using System;
@@ -29,6 +32,13 @@ namespace ElectroTrading.Application.Mapper
             CreateMap<EmployeeDebt, DebtViewModel>().ReverseMap();
             CreateMap<CreateSalaryPaymentCommand, PaymentSalary>().ReverseMap();
             CreateMap<PaymentSalary, SalaryViewModel>().ReverseMap();
+            CreateMap<CreateProductCommand, Product>().ReverseMap();
+            CreateMap<Product, ProductViewModel>().ReverseMap();
+            CreateMap<CreateFinishedProductCommand, FinishedProduct>().ReverseMap();
+            CreateMap<FinishedProduct, FinishedProductViewModel>().ReverseMap();
+            CreateMap<Comp, ProductComposition>().ReverseMap();
+            CreateMap<CreateBSProductCommand, BoughtAndSoldProduct>().ReverseMap();
+            CreateMap<AddProductStorageCommand, Storage>().ReverseMap();
         }
     }
 }
