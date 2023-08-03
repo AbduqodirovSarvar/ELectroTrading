@@ -8,20 +8,20 @@ namespace ElectroTrading.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeSalaryController : ControllerBase
+    public class EmployeeDebtController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public EmployeeSalaryController(IMediator mediator)
+        public EmployeeDebtController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSalary([FromBody] CreateSalaryPaymentCommand command)
+        public async Task<IActionResult> CreateDebt([FromBody] CreateDebtCommand command)
         {
             try
             {
-                return Ok(await _mediator.Send(command));
+                return Ok(await (_mediator.Send(command)));
             }
             catch (Exception ex)
             {
@@ -30,12 +30,12 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{SalaryId}")]
-        public async Task<IActionResult> GetSalary([FromRoute] int SalaryId)
+        [Route("{DebtId}")]
+        public async Task<IActionResult> GetDebt([FromRoute] int DebtId)
         {
             try
             {
-                return Ok(await _mediator.Send(new GetSalaryQuery(SalaryId)));
+                return Ok(await _mediator.Send(new GetDebtQuery(DebtId)));
             }
             catch (Exception ex)
             {
@@ -44,13 +44,13 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpGet("All")]
-        public async Task<IActionResult> GetAllSalaryByFilter([FromQuery] GetAllSalaryByFilterQuery query)
+        public async Task<IActionResult> GetAllDebtByFilter([FromQuery] GetAllDebtByFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
         }
 
         [HttpPatch]
-        public async Task<IActionResult> UpdateSalary([FromBody] UpdateSalaryCommand command)
+        public async Task<IActionResult> UpdateDebt([FromBody] UpdateDebtCommand command)
         {
             try
             {
@@ -63,11 +63,11 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> DeleteSalary(int Id)
+        public async Task<IActionResult> DeleteDebt(int Id)
         {
             try
             {
-                return Ok(await _mediator.Send(new DeleteSalaryCommand(Id)));
+                return Ok(await _mediator.Send(new DeleteDebtCommand(Id)));
             }
             catch (Exception ex)
             {

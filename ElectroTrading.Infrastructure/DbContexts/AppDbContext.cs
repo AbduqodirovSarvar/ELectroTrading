@@ -29,6 +29,7 @@ namespace ElectroTrading.Infrastructure.DbContexts
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductComposition> ProductCompositions { get; set; }
         public DbSet<Storage> Storages { get; set; }
+        public DbSet<ProductPhoto> ProductPhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +38,11 @@ namespace ElectroTrading.Infrastructure.DbContexts
 
             modelBuilder.Entity<ProductComposition>()
                 .HasKey(pc => pc.Id);
+
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Photo)
+                .WithOne(p => p.Product)
+                .HasForeignKey<ProductPhoto>(p => p.ProductId);
 
             modelBuilder.Entity<ProductComposition>()
                 .HasOne(pc => pc.Product)

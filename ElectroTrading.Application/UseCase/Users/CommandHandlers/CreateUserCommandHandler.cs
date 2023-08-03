@@ -31,7 +31,7 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
             if (user != null)
                 throw new AlreadyExistsException();
 
-            User createUser = _mapper.Map<User>(user);
+            User createUser = _mapper.Map<User>(request);
             createUser.Password = _hashService.GetHash(request.Password);
             createUser.CreatedDate= DateTime.UtcNow;
 
