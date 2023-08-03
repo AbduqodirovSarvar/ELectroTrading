@@ -21,6 +21,7 @@ namespace ElectroTrading.Application.Abstractions
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductComposition> ProductCompositions { get; set; }
         public DbSet<Storage> Storages { get; set; }
+        public DbSet<ProductPhoto> ProductPhotos { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken token = default);
     }

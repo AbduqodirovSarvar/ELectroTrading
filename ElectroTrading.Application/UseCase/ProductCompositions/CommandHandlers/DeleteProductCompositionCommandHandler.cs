@@ -1,5 +1,6 @@
 ﻿using ElectroTrading.Application.Abstractions;
 using ElectroTrading.Application.Exceptions;
+using ElectroTrading.Application.UseCase.ProductCompositions.Commands;
 using ElectroTrading.Application.UseCase.Products.Commands;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
+namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
 {
     public class DeleteProductCompositionCommandHandler : ICommandHandler<DeleteProductCompositionCommand, bool>
     {
@@ -26,9 +27,9 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
                 throw new NotFoundException();
             }
 
-            if(request?.CompositionIds != null)
+            if (request?.CompositionIds != null)
             {
-                foreach(var id in request.CompositionIds)
+                foreach (var id in request.CompositionIds)
                 {
                     var comp = product.Compositions.FirstOrDefault(x => x.Id == id);
                     if (comp == null)
@@ -38,7 +39,7 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
             }
 
 
-            return (await _context.SaveChangesAsync(cancellationToken)) > 0;
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
     }
 }

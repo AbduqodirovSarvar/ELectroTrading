@@ -1,16 +1,17 @@
-﻿using System;
+﻿using ElectroTrading.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Domain.Entities
+namespace ElectroTrading.Application.Models.ViewModels
 {
-    public class ProductPhoto
+    public class PhotoViewModel
     {
         public int Id { get; set; }
         public int ProductId { get; set; }
-        public Product? Product { get; set; }
+        public ProductViewModel? Product { get; set; }
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

@@ -1,6 +1,7 @@
 ﻿using ElectroTrading.Application.UseCase.BSProducts.Commands;
 using ElectroTrading.Application.UseCase.BSProducts.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPost]
         public async Task<IActionResult> CreateBSProduct([FromBody] CreateBSProductCommand command)
         {
@@ -29,6 +31,7 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPatch]
         public async Task<IActionResult> UpdateBSProduct([FromBody] UpdateBSProductCommand command)
         {
@@ -42,6 +45,7 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteBSProduct(int Id)
         {

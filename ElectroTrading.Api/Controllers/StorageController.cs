@@ -1,6 +1,7 @@
 ﻿using ElectroTrading.Application.UseCase.Storages.Commands;
 using ElectroTrading.Application.UseCase.Storages.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPost]
         public async Task<IActionResult> CreateToStorage([FromBody] AddProductStorageCommand command)
         {
@@ -29,6 +31,7 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteFromStorage(int Id)
         {
@@ -42,6 +45,7 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPatch]
         public async Task<IActionResult> UpdateStorage([FromBody] UpdateProductStorageCommand command)
         {

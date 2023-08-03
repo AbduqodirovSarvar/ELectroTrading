@@ -17,4 +17,12 @@
     <ProjectReference Include="..\ElectroTrading.Domain\ElectroTrading.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\ViewModels\NewFolder\" />
+    <Folder Include="UseCase\FinishedProducts\QueryHandlers\" />
+    <Folder Include="UseCase\FinishedProducts\Queries\" />
+    <Folder Include="UseCase\ProductCompositions\QueryHandlers\" />
+    <Folder Include="UseCase\ProductCompositions\Queries\" />
+  </ItemGroup>
+
 </Project>

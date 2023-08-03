@@ -18,4 +18,8 @@
     <ProjectReference Include="..\ElectroTrading.Infrastructure\ElectroTrading.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Files\Photos\" />
+  </ItemGroup>
+
 </Project>

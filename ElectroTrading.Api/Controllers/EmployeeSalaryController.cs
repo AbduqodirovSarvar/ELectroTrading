@@ -1,6 +1,7 @@
 ﻿using ElectroTrading.Application.UseCase.Salary.Commands;
 using ElectroTrading.Application.UseCase.Salary.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPost]
         public async Task<IActionResult> CreateSalary([FromBody] CreateSalaryPaymentCommand command)
         {
@@ -62,6 +64,7 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteSalary(int Id)
         {

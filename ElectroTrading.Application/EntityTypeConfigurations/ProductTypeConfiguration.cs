@@ -19,6 +19,7 @@ namespace ElectroTrading.Application.EntityTypeConfigurations
             builder.HasMany(o => o.Orders).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
             builder.HasMany(Pc => Pc.Compositions).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
             builder.HasMany(s => s.Storages).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
+            builder.HasMany(x => x.Photos).WithOne(p => p.Product).HasForeignKey(p => p.ProductId);
         }
     }
 }

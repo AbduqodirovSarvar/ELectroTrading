@@ -2,6 +2,7 @@
 using ElectroTrading.Application.UseCase.Users.Queries;
 using ElectroTrading.Application.UseCase.Users.QueryHandlers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace ElectroTrading.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "AdminActions")]
     public class UserController : ControllerBase
     {
         private readonly IMediator _mediator;

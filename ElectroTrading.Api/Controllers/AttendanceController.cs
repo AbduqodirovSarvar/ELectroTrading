@@ -1,6 +1,7 @@
 ﻿using ElectroTrading.Application.UseCase.Attendances.Commands;
 using ElectroTrading.Application.UseCase.Attendances.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPost]
         public async Task<IActionResult> CreateAttendance([FromBody] CreateAttendanceCommand command)
         {
@@ -49,6 +51,7 @@ namespace ElectroTrading.Api.Controllers
             return Ok(await _mediator.Send(query));
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPatch]
         public async Task<IActionResult> UpdateAttendance([FromBody] UpdateAttendanceCommand command)
         {
@@ -62,6 +65,7 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpDelete]
         public async Task<IActionResult> DeleteAttendance([FromBody] DeleteAttendanceCommand command)
         {

@@ -8,21 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Application.UseCase.Products.Commands
+namespace ElectroTrading.Application.UseCase.FinishedProducts.Commands
 {
-    public class CreateProductCompositionCommand : ICommand<ProductViewModel>
+    public class CreateFinishedProductCommand : ICommand<FinishedProductViewModel>
     {
         [Required]
         public int ProductId { get; set; }
         [Required]
-        public List<Comp> CompositionIds { get; set; } = new List<Comp>();
-        [Required]
-        public double Amount { get; set; }
-    }
-
-    public class Comp
-    {
-        public int CompositionId { get; set; }
         public double Amount { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ElectroTrading.Application.UseCase.Products.Commands
+namespace ElectroTrading.Application.UseCase.ProductCompositions.Commands
 {
     public class DeleteProductCompositionCommand : ICommand<bool>
     {

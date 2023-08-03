@@ -11,7 +11,6 @@ namespace ElectroTrading.Application.Models.ViewModels
     public class LoginViewModel
     {
         public string Token { get; set; } = string.Empty;
-        public HttpStatusCode Status { get; set; } = HttpStatusCode.OK;
         public string UserRole { get; set; } = string.Empty;
     }
 }

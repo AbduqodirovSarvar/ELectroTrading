@@ -1,6 +1,7 @@
 ﻿using ElectroTrading.Application.UseCase.Orders.Commands;
 using ElectroTrading.Application.UseCase.Orders.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,8 @@ namespace ElectroTrading.Api.Controllers
         {
             _mediator = mediator;
         }
+
+        [Authorize(Policy = "AdminActions")]
 
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
@@ -49,12 +52,14 @@ namespace ElectroTrading.Api.Controllers
             return Ok(await _mediator.Send(query));
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPatch]
         public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpDelete("{OrderId}")]
         public async Task<IActionResult> DeleteOrder(int OrderId)
         {

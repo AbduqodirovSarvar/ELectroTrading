@@ -24,6 +24,27 @@ namespace ElectroTrading.Application.UseCase.Products.QueryHandlers
         public async Task<List<ProductViewModel>> Handle(GetAllProductByFilterQuery request, CancellationToken cancellationToken)
         {
             var products = await _context.Products.Include(x => x.Compositions).ToListAsync(cancellationToken);
+
+            if (request?.Category != null)
+            {
+                products = products.Where(x => x.Category == request.Category).ToList();
+            }
+
+            if(request?.isFinished != null)
+            {
+                if(request.isFinished == true)
+                {
+                    products = products.Where(x => _context.FinishedProducts.Any(fp => fp.ProductId == x.Id)).ToList();
+                }
+                else
+                {
+                    products = products.Where(x => _context.FinishedProducts.Any(fp => fp.ProductId != x.Id)).ToList();
+                    products = (from x in products
+                                join fp in _context.FinishedProducts on x.Id  !equals fp.Id
+                                select x).ToList();
+                }
+            }
+
             List<ProductViewModel> result = new List<ProductViewModel>();
             foreach (var product in products)
             {

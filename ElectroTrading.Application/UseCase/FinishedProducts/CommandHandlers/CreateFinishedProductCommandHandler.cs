@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ElectroTrading.Application.Abstractions;
 using ElectroTrading.Application.Models.ViewModels;
+using ElectroTrading.Application.UseCase.FinishedProducts.Commands;
 using ElectroTrading.Application.UseCase.Products.Commands;
 using ElectroTrading.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
+namespace ElectroTrading.Application.UseCase.FinishedProducts.CommandHandlers
 {
     public class CreateFinishedProductCommandHandler : ICommandHandler<CreateFinishedProductCommand, FinishedProductViewModel>
     {
@@ -42,7 +43,7 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
                 viewModel = _mapper.Map<FinishedProductViewModel>(createModel);
                 viewModel.Product = _mapper.Map<ProductViewModel>(await _context.Products.FirstOrDefaultAsync(x => x.Id == createModel.ProductId, cancellationToken));
             }
-            
+
             return viewModel;
         }
     }

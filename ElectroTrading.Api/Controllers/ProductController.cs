@@ -1,8 +1,10 @@
-﻿using ElectroTrading.Application.UseCase.Products.Commands;
+﻿using ElectroTrading.Application.UseCase.ProductCompositions.Commands;
+using ElectroTrading.Application.UseCase.Products.Commands;
 using ElectroTrading.Application.UseCase.Products.Queries;
 using ElectroTrading.Application.UseCase.Salary.Commands;
 using ElectroTrading.Application.UseCase.Salary.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +20,7 @@ namespace ElectroTrading.Api.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductCommand command)
         {
@@ -31,46 +34,9 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
-        [HttpPost("Finished")]
-        public async Task<IActionResult> CreateFinishedProduct([FromBody] CreateFinishedProductCommand command)
-        {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        
 
-        [HttpPost("ProductComposition")]
-        public async Task<IActionResult> CreateProductComposition([FromBody] CreateProductCompositionCommand command)
-        {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpDelete("ProductComposition")]
-        public async Task<IActionResult> DeleteProductCompositions(DeleteProductCompositionCommand command)
-        {
-            try
-            {
-                return Ok(await _mediator.Send(command));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-
+        [Authorize(Policy = "AdminActions")]
         [HttpPatch]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
         {
@@ -84,8 +50,9 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminActions")]
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> DeleteDebt(int Id)
+        public async Task<IActionResult> DeleteProduct(int Id)
         {
             try
             {
@@ -99,13 +66,13 @@ namespace ElectroTrading.Api.Controllers
 
         [HttpGet]
         [Route("{Id}")]
-        public async Task<IActionResult> GetSalary([FromRoute] int Id)
+        public async Task<IActionResult> GetProduct([FromRoute] int Id)
         {
             return Ok(await _mediator.Send(new GetProductQuery(Id)));
         }
 
         [HttpGet("All")]
-        public async Task<IActionResult> GetAllSalaryByFilter([FromQuery] GetAllProductByFilterQuery query)
+        public async Task<IActionResult> GetAllProductByFilter([FromQuery] GetAllProductByFilterQuery query)
         {
             return Ok(await _mediator.Send(query));
         }

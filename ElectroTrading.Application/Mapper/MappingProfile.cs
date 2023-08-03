@@ -2,7 +2,9 @@
 using ElectroTrading.Application.Models.DTOs;
 using ElectroTrading.Application.Models.ViewModels;
 using ElectroTrading.Application.UseCase.BSProducts.Commands;
+using ElectroTrading.Application.UseCase.FinishedProducts.Commands;
 using ElectroTrading.Application.UseCase.Orders.Commands;
+using ElectroTrading.Application.UseCase.ProductCompositions.Commands;
 using ElectroTrading.Application.UseCase.Products.Commands;
 using ElectroTrading.Application.UseCase.Salary.Commands;
 using ElectroTrading.Application.UseCase.Storages.Commands;
@@ -39,6 +41,7 @@ namespace ElectroTrading.Application.Mapper
             CreateMap<Comp, ProductComposition>().ReverseMap();
             CreateMap<CreateBSProductCommand, BoughtAndSoldProduct>().ReverseMap();
             CreateMap<AddProductStorageCommand, Storage>().ReverseMap();
+            CreateMap<ProductPhoto, PhotoViewModel>().ReverseMap();
         }
     }
 }

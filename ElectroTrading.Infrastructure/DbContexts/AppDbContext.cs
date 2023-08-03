@@ -39,22 +39,15 @@ namespace ElectroTrading.Infrastructure.DbContexts
             modelBuilder.Entity<ProductComposition>()
                 .HasKey(pc => pc.Id);
 
-            modelBuilder.Entity<Product>()
-                .HasOne(p => p.Photo)
-                .WithOne(p => p.Product)
-                .HasForeignKey<ProductPhoto>(p => p.ProductId);
-
             modelBuilder.Entity<ProductComposition>()
                 .HasOne(pc => pc.Product)
                 .WithMany(p => p.Compositions)
                 .HasForeignKey(pc => pc.ProductId);
-            /*.OnDelete(DeleteBehavior.Restrict);*/
 
             modelBuilder.Entity<ProductComposition>()
                 .HasOne(pc => pc.Composition)
                 .WithMany()
                 .HasForeignKey(pc => pc.CompositionId);
-            /*.OnDelete(DeleteBehavior.Restrict);*/
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,

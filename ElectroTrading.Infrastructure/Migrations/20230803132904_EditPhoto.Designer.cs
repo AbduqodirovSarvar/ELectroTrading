@@ -3,6 +3,7 @@ using System;
 using ElectroTrading.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElectroTrading.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230803132904_EditPhoto")]
+    partial class EditPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,7 +359,8 @@ namespace ElectroTrading.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("ProductPhotos");
                 });
@@ -415,7 +419,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 8, 3, 13, 38, 6, 838, DateTimeKind.Utc).AddTicks(8782),
+                            CreatedDate = new DateTime(2023, 8, 3, 13, 29, 3, 838, DateTimeKind.Utc).AddTicks(810),
                             Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
                             Phone = "ElectroTradingAdmin",
                             Role = 2
@@ -528,8 +532,8 @@ namespace ElectroTrading.Infrastructure.Migrations
             modelBuilder.Entity("ElectroTrading.Domain.Entities.ProductPhoto", b =>
                 {
                     b.HasOne("ElectroTrading.Domain.Entities.Product", "Product")
-                        .WithMany("Photos")
-                        .HasForeignKey("ProductId")
+                        .WithOne()
+                        .HasForeignKey("ElectroTrading.Domain.Entities.ProductPhoto", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -565,8 +569,6 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Navigation("FinishedProducts");
 
                     b.Navigation("Orders");
-
-                    b.Navigation("Photos");
 
                     b.Navigation("Storages");
                 });

@@ -2,6 +2,7 @@
 using ElectroTrading.Application.Abstractions;
 using ElectroTrading.Application.Exceptions;
 using ElectroTrading.Application.Models.ViewModels;
+using ElectroTrading.Application.UseCase.ProductCompositions.Commands;
 using ElectroTrading.Application.UseCase.Products.Commands;
 using ElectroTrading.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
+namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
 {
     public class CreateProductCompositionCommandHandler : ICommandHandler<CreateProductCompositionCommand, ProductViewModel>
     {
@@ -31,15 +32,15 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
 
             ProductViewModel viewModel = _mapper.Map<ProductViewModel>(product);
             viewModel.Compositions = _mapper.Map<List<ProductCompositionViewModel>>(product.Compositions);
-        
+
             foreach (var comp in request.CompositionIds)
             {
                 var composition = product.Compositions.FirstOrDefault(x => x.CompositionId == comp.CompositionId);
-                if(composition == null)
+                if (composition == null)
                 {
                     ProductComposition createModel = _mapper.Map<ProductComposition>(comp);
                     createModel.ProductId = request.ProductId;
-                    
+
                     await _context.ProductCompositions.AddAsync(createModel, cancellationToken);
 
                     viewModel.Compositions.Add(_mapper.Map<ProductCompositionViewModel>(createModel));

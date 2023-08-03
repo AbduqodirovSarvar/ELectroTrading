@@ -12,9 +12,8 @@ namespace ElectroTrading.Application.UseCase.Products.Queries
     public class GetAllProductByFilterQuery : IQuery<List<ProductViewModel>>
     {
         public GetAllProductByFilterQuery() { }
-        public string? Name { get; set; } = null;
-        public decimal? Price { get; set; } = null;
         public CategoryUnity? Category { get; set; } = null;
+        public bool? isFinished { get; set; } = null;
 
     }
 }
