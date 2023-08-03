@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.UseCase.Photos.QueryHandlers
 {
-    public class GetProductPhotoQueryHandler : IQueryHandler<GetProductPhotoQuery, string>
+    public class GetProductPhotoQueryHandler : IQueryHandler<GetProductPhotoQuery, (string, string)>
     {
         private readonly IAppDbContext _context;
         public GetProductPhotoQueryHandler(IAppDbContext context)
         {
             _context = context;
         }
-        public async Task<string> Handle(GetProductPhotoQuery request, CancellationToken cancellationToken)
+        public async Task<(string, string)> Handle(GetProductPhotoQuery request, CancellationToken cancellationToken)
         {
             var photo = await _context.ProductPhotos.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (photo == null)
@@ -29,13 +29,11 @@ namespace ElectroTrading.Application.UseCase.Photos.QueryHandlers
                 throw new NotFoundException();
             }
 
-            string filePath = Path.Combine(photo.FilePath);
-
             string contentType = "image/jpeg";
 
-            if (File.Exists(filePath))
+            if (File.Exists(photo.FilePath))
             {
-                var ext = Path.GetExtension(filePath);
+                var ext = Path.GetExtension(photo.FilePath);
                 if (ext == ".png")
                 {
                     contentType = "image/png";
@@ -43,7 +41,7 @@ namespace ElectroTrading.Application.UseCase.Photos.QueryHandlers
 
             }
 
-            return filePath;
+            return (photo.FilePath, contentType);
         }
     }
 }

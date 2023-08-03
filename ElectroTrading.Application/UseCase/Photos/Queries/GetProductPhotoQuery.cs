@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.UseCase.Photos.Queries
 {
-    public class GetProductPhotoQuery : IQuery<string>
+    public class GetProductPhotoQuery : IQuery<(string, string)>
     {
         public GetProductPhotoQuery(int id) { Id = id; }
         [Required]

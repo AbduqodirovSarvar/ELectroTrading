@@ -1,8 +1,11 @@
 ﻿using ElectroTrading.Application.UseCase.Photos.Commands;
 using ElectroTrading.Application.UseCase.Photos.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ElectroTrading.Api.Controllers
 {
@@ -11,24 +14,74 @@ namespace ElectroTrading.Api.Controllers
     public class ProductPhotoController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public ProductPhotoController(IMediator mediator) 
+        private readonly IWebHostEnvironment _env;
+        public ProductPhotoController(IMediator mediator, IWebHostEnvironment env) 
         {
             _mediator = mediator;
+            _env = env;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePhoto([FromForm] CreateProductPhotoCommand command)
+        public async Task<IActionResult> CreatePhoto([FromForm] GettingFile command)
         {
-            return Ok(await _mediator.Send(command));
+            if(command.Image == null)
+            {
+                return BadRequest();
+            }
+
+            string webRootPath = _env.WebRootPath;
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(command.Image.FileName);
+            string filePath = Path.Combine(webRootPath, fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await command.Image.CopyToAsync(fileStream);
+            }
+
+            var res = await _mediator.Send(new CreateProductPhotoCommand(1, fileName, filePath));
+            return Ok(res);
         }
 
         [HttpGet]
         [Route("{Id}")]
-        public async Task<IActionResult> GetPhoto([FromRoute] int Id)
+        public async Task<PhysicalFileResult> GetPhoto([FromRoute] int Id)
         {
-            var fileBytes = System.IO.File.ReadAllBytes("C:\\Users\\Sarvar\\OneDrive\\Ishchi stol\\Electro Trading\\ElectroTrading.Api\\Files\\Photos\\IMG_b047040d-8b71-48af-ab87-76592fbfca28.png");
+            var res = await _mediator.Send(new GetProductPhotoQuery(Id));
+           /* string webRootPath = _env.WebRootPath;
+            string filePath = Path.Combine(webRootPath, fileName);*/
 
-            return Ok(await _mediator.Send(new GetProductPhotoQuery(Id)));
+            return PhysicalFile(res.Item1, res.Item2);
         }
+
+
+      /*  public (string, string) SaveImage(IFormFile image)
+        {
+            string webRootPath = _env.WebRootPath;
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+            string filePath = Path.Combine(webRootPath, fileName);
+
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            return (fileName, filePath);
+        }*/
+
+      /*  public string GetImagePath(string fileName)
+        {
+            string webRootPath = _env.WebRootPath;
+            string filePath = Path.Combine(webRootPath, fileName);
+
+            return filePath;
+        }*/
+    }
+
+    public class GettingFile
+    {
+        [Required]
+        public int ProductId { get; set; }
+        [Required]
+        public IFormFile? Image { get; set; }
     }
 }

@@ -13,9 +13,18 @@ namespace ElectroTrading.Application.UseCase.Photos.Commands
 {
     public class CreateProductPhotoCommand : ICommand<PhotoViewModel>
     {
+        public CreateProductPhotoCommand(int id, string filename, string filepath)
+        {
+            Id = id;
+            FileName = filename;
+            FilePath = filepath;
+        }
         [Required]
         public int Id { get; set; }
         [Required]
-        public IFormFile file { get; set; }
+        public string FileName { get; set; }
+        [Required]
+        public string FilePath { get; set; }
+        
     }
 }

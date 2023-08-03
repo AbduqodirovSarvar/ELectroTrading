@@ -6,6 +6,7 @@ using ElectroTrading.Application.Services;
 using ElectroTrading.Application.UseCase.Photos.Commands;
 using ElectroTrading.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,26 +33,10 @@ namespace ElectroTrading.Application.UseCase.Photos.CommandHandlers
                 throw new NotFoundException();
             }
 
-            if (request?.file == null || request?.file.Length == 0)
-            {
-                throw new NotFoundException();
-            }
-
-            string fileName = MakeImageName.GetName(request.file.FileName);
-
-            string folderPath = Path.Combine(Directory.GetCurrentDirectory(),"Files", "Photos");
-
-            string filePath = Path.Combine(folderPath, fileName);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await request.file.CopyToAsync(stream, cancellationToken);
-            }
-
             ProductPhoto photo = new ProductPhoto();
             photo.ProductId = product.Id;
-            photo.FileName = fileName;
-            photo.FilePath = filePath;
+            photo.FileName = request.FileName;
+            photo.FilePath = request.FilePath;
 
             await _context.ProductPhotos.AddAsync(photo, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

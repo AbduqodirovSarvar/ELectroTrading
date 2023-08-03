@@ -12,8 +12,8 @@ namespace ElectroTrading.Application.Models.ViewModels
         public int Id { get; set; }
         public int ProductId { get; set; }
         public ProductViewModel? Product { get; set; }
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public string FileName { get; set; } = string.Empty;
+        public string FilePath { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     }
 }
