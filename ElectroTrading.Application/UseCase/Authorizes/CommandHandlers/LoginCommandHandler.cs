@@ -38,7 +38,7 @@ namespace ElectroTrading.Application.UseCase.Authorizes.CommandHandlers
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 };
 
-            viewModel.Token = _tokenService.GetAccessToken(claims.ToArray());
+            viewModel.Token = "Bearer " + _tokenService.GetAccessToken(claims.ToArray());
             return viewModel;
         }
     }
