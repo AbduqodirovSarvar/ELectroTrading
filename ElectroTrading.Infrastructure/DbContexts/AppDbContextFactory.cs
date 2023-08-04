@@ -13,7 +13,7 @@ namespace ElectroTrading.Infrastructure.DbContexts
         public AppDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ElectroTrading;User Id=postgres;Password=123456789;Include Error Detail=true");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ElectroTrading;User Id=postgres;Password=12345;Include Error Detail=true");
 
             return new AppDbContext(optionsBuilder.Options);
         }
