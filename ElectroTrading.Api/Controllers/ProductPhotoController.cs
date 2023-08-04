@@ -15,7 +15,7 @@ namespace ElectroTrading.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IWebHostEnvironment _env;
-        public ProductPhotoController(IMediator mediator, IWebHostEnvironment env) 
+        public ProductPhotoController(IMediator mediator, IWebHostEnvironment env)
         {
             _mediator = mediator;
             _env = env;
@@ -29,17 +29,63 @@ namespace ElectroTrading.Api.Controllers
                 return BadRequest();
             }
 
-            string webRootPath = _env.WebRootPath;
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(command.Image.FileName);
-            string filePath = Path.Combine(webRootPath, "Images", fileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            try
             {
-                await command.Image.CopyToAsync(fileStream);
+                string webRootPath = _env.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(command.Image.FileName);
+                string filePath = Path.Combine(webRootPath, "Images", fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await command.Image.CopyToAsync(fileStream);
+                }
+
+                return Ok(await _mediator.Send(new CreateProductPhotoCommand(1, fileName, filePath)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> UpdatePhoto([FromForm] GettingFile command)
+        {
+            if(command.Image == null)
+            {
+                return BadRequest();
             }
 
-            var res = await _mediator.Send(new CreateProductPhotoCommand(1, fileName, filePath));
-            return Ok(res);
+            try
+            {
+                string webRootPath = _env.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(command.Image.FileName);
+                string filePath = Path.Combine(webRootPath, "Images", fileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await command.Image.CopyToAsync(fileStream);
+                }
+
+                return Ok(await _mediator.Send(new UpdateProductPhotoCommand(1, fileName, filePath)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{ProductId}")]
+        public async Task<IActionResult> DeletePhoto(int ProductId)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(new DeleteProductPhotoCommand(ProductId)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -50,7 +96,16 @@ namespace ElectroTrading.Api.Controllers
 
             return PhysicalFile(res.Item1, res.Item2);
         }
+
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAllPhotos()
+        {
+            return Ok(await _mediator.Send(new GetAllPhotoQuery()));
+        }
     }
+
+
+
 
     public class GettingFile
     {

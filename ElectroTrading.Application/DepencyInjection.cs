@@ -22,6 +22,7 @@ namespace ElectroTrading.Application
             _services.AddScoped<ICurrentUserService, CurrentUserService>();
             _services.AddScoped<IHashService, HashService>();
             _services.AddScoped<IUpdatePhoneNumber, UpdatePhoneNumber>();
+            _services.AddScoped<ISendTelegramMessage, SendTelegramMessage>();
 
             var mappingconfig = new MapperConfiguration(x =>
             {

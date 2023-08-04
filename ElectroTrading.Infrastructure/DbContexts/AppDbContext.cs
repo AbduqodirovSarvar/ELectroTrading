@@ -45,6 +45,15 @@ namespace ElectroTrading.Infrastructure.DbContexts
             modelBuilder.Entity<ProductComposition>()
                 .HasKey(pc => pc.Id);
 
+            modelBuilder.Entity<ProductPhoto>()
+                .HasOne(p => p.Product)
+                .WithOne(pp => pp.Photo)
+                .HasForeignKey<ProductPhoto>(x => x.ProductId);
+
+            modelBuilder.Entity<ProductPhoto>()
+                .HasIndex(p => p.ProductId)
+                .IsUnique();
+
             modelBuilder.Entity<ProductComposition>()
                 .HasOne(pc => pc.Product)
                 .WithMany(p => p.Compositions)

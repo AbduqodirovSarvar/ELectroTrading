@@ -31,14 +31,9 @@ namespace ElectroTrading.Application.UseCase.Photos.QueryHandlers
 
             string contentType = "image/jpeg";
 
-            if (File.Exists(photo.FilePath))
+            if (File.Exists(photo.FilePath) && Path.GetExtension(photo.FilePath) == ".png")
             {
-                var ext = Path.GetExtension(photo.FilePath);
-                if (ext == ".png")
-                {
-                    contentType = "image/png";
-                }
-
+                contentType = "image/png";
             }
 
             return (photo.FilePath, contentType);
