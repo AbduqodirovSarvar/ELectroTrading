@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroTrading.Api", "ElectroTrading.Api\ElectroTrading.Api.csproj", "{8D89FC8F-7A02-4B4E-8C9F-3E03E37FD944}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroTrading.Api", "ElectroTrading.Api\ElectroTrading.Api.csproj", "{8D89FC8F-7A02-4B4E-8C9F-3E03E37FD944}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroTrading.Domain", "ElectroTrading.Domain\ElectroTrading.Domain.csproj", "{103F1E61-9313-4B24-82A6-2A811950C3A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroTrading.Domain", "ElectroTrading.Domain\ElectroTrading.Domain.csproj", "{103F1E61-9313-4B24-82A6-2A811950C3A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroTrading.Application", "ElectroTrading.Application\ElectroTrading.Application.csproj", "{CA7164B6-16F4-4087-8D2D-A80C77C35452}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroTrading.Application", "ElectroTrading.Application\ElectroTrading.Application.csproj", "{CA7164B6-16F4-4087-8D2D-A80C77C35452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElectroTrading.Infrastructure", "ElectroTrading.Infrastructure\ElectroTrading.Infrastructure.csproj", "{159C2134-CF3D-4B70-90DC-3DEBFD70B79C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ElectroTrading.Infrastructure", "ElectroTrading.Infrastructure\ElectroTrading.Infrastructure.csproj", "{159C2134-CF3D-4B70-90DC-3DEBFD70B79C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

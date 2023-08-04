@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElectroTrading.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230803132904_EditPhoto")]
-    partial class EditPhoto
+    [Migration("20230804042051_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -359,8 +359,7 @@ namespace ElectroTrading.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId")
-                        .IsUnique();
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductPhotos");
                 });
@@ -419,7 +418,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 8, 3, 13, 29, 3, 838, DateTimeKind.Utc).AddTicks(810),
+                            CreatedDate = new DateTime(2023, 8, 4, 4, 20, 51, 137, DateTimeKind.Utc).AddTicks(7145),
                             Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
                             Phone = "ElectroTradingAdmin",
                             Role = 2
@@ -532,8 +531,8 @@ namespace ElectroTrading.Infrastructure.Migrations
             modelBuilder.Entity("ElectroTrading.Domain.Entities.ProductPhoto", b =>
                 {
                     b.HasOne("ElectroTrading.Domain.Entities.Product", "Product")
-                        .WithOne()
-                        .HasForeignKey("ElectroTrading.Domain.Entities.ProductPhoto", "ProductId")
+                        .WithMany("Photos")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -569,6 +568,8 @@ namespace ElectroTrading.Infrastructure.Migrations
                     b.Navigation("FinishedProducts");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("Photos");
 
                     b.Navigation("Storages");
                 });

@@ -47,34 +47,9 @@ namespace ElectroTrading.Api.Controllers
         public async Task<PhysicalFileResult> GetPhoto([FromRoute] int Id)
         {
             var res = await _mediator.Send(new GetProductPhotoQuery(Id));
-           /* string webRootPath = _env.WebRootPath;
-            string filePath = Path.Combine(webRootPath, fileName);*/
 
             return PhysicalFile(res.Item1, res.Item2);
         }
-
-
-      /*  public (string, string) SaveImage(IFormFile image)
-        {
-            string webRootPath = _env.WebRootPath;
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
-            string filePath = Path.Combine(webRootPath, fileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await image.CopyToAsync(fileStream);
-            }
-
-            return (fileName, filePath);
-        }*/
-
-      /*  public string GetImagePath(string fileName)
-        {
-            string webRootPath = _env.WebRootPath;
-            string filePath = Path.Combine(webRootPath, fileName);
-
-            return filePath;
-        }*/
     }
 
     public class GettingFile

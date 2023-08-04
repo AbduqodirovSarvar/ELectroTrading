@@ -166,6 +166,28 @@ namespace ElectroTrading.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductPhotos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    FileName = table.Column<string>(type: "text", nullable: false),
+                    FilePath = table.Column<string>(type: "text", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductPhotos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductPhotos_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Storages",
                 columns: table => new
                 {
@@ -195,7 +217,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                     EmployeeId = table.Column<int>(type: "integer", nullable: false),
                     Day = table.Column<DateOnly>(type: "date", nullable: false),
                     IsMainWork = table.Column<bool>(type: "boolean", nullable: false),
-                    IsExtraWork = table.Column<bool>(type: "boolean", nullable: false),
+                    LateHours = table.Column<double>(type: "double precision", nullable: false),
                     ExtraWorkHours = table.Column<double>(type: "double precision", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     ByWhomId = table.Column<int>(type: "integer", nullable: false),
@@ -277,7 +299,7 @@ namespace ElectroTrading.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedDate", "Password", "Phone", "Role" },
-                values: new object[] { 1, new DateTime(2023, 7, 24, 16, 43, 0, 180, DateTimeKind.Utc).AddTicks(3265), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
+                values: new object[] { 1, new DateTime(2023, 8, 4, 4, 20, 51, 137, DateTimeKind.Utc).AddTicks(7145), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",
@@ -335,6 +357,11 @@ namespace ElectroTrading.Infrastructure.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductPhotos_ProductId",
+                table: "ProductPhotos",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Storages_ProductId",
                 table: "Storages",
                 column: "ProductId");
@@ -363,6 +390,9 @@ namespace ElectroTrading.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductCompositions");
+
+            migrationBuilder.DropTable(
+                name: "ProductPhotos");
 
             migrationBuilder.DropTable(
                 name: "Storages");

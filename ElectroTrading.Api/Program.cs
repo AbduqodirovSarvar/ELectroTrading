@@ -71,6 +71,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     });
 }
 app.UseStaticFiles();
+app.UseDeveloperExceptionPage();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 
