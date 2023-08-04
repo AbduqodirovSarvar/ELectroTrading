@@ -20,8 +20,10 @@ namespace ElectroTrading.Infrastructure
     {
         public static IServiceCollection InfrasturctureServices(this IServiceCollection _services, IConfiguration _config)
         {
-            _services.AddDbContext<AppDbContext>(options
-                => options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
+            _services.AddDbContextFactory<AppDbContext>(opt => opt.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
+
+           /* _services.AddDbContext<AppDbContext>(options
+                => options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));*/
 
             _services.AddScoped<IAppDbContext, AppDbContext>();
             _services.AddScoped<ITokenService, TokenService>();

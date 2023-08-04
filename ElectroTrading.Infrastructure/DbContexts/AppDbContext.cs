@@ -13,7 +13,13 @@ namespace ElectroTrading.Infrastructure.DbContexts
     public class AppDbContext : DbContext, IAppDbContext
     {
         private readonly IHashService _hashService;
-        public AppDbContext(DbContextOptions<AppDbContext> options, IHashService hashService)
+
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
+            _hashService = new HashService();
+        }
+
+        public AppDbContext(DbContextOptions options, IHashService hashService)
             : base(options) 
         {
             _hashService = hashService;
