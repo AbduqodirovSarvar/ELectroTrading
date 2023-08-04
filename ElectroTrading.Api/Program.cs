@@ -14,6 +14,12 @@ builder.WebHost.ConfigureKestrel(options =>
     });
 });
 
+builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+            });
+
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 builder.Services.ApplicationService();
