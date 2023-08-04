@@ -31,7 +31,7 @@ namespace ElectroTrading.Api.Controllers
 
             string webRootPath = _env.WebRootPath;
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(command.Image.FileName);
-            string filePath = Path.Combine(webRootPath, fileName);
+            string filePath = Path.Combine(webRootPath, "Images", fileName);
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {

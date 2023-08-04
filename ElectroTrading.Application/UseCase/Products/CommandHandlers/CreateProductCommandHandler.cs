@@ -34,7 +34,7 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
             await _context.Products.AddAsync(createModel, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<ProductViewModel>(product);
+            return _mapper.Map<ProductViewModel>(createModel);
         }
     }
 }
