@@ -16,8 +16,6 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.Commands
         public int ProductId { get; set; }
         [Required]
         public List<Comp> CompositionIds { get; set; } = new List<Comp>();
-        [Required]
-        public double Amount { get; set; }
     }
 
     public class Comp

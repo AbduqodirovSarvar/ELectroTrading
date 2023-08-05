@@ -34,11 +34,11 @@ namespace ElectroTrading.Api.Controllers
 
         [Authorize(Policy = "AdminActions")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteProductCompositions(DeleteProductCompositionCommand command)
+        public async Task<IActionResult> DeleteProductCompositions(int ProductId, List<int> ids)
         {
             try
             {
-                return Ok(await _mediator.Send(command));
+                return Ok(await _mediator.Send(new DeleteProductCompositionCommand(ProductId, ids)));
             }
             catch (Exception ex)
             {

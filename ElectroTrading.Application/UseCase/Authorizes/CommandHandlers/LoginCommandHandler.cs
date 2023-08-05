@@ -17,13 +17,11 @@ namespace ElectroTrading.Application.UseCase.Authorizes.CommandHandlers
         private readonly IAppDbContext _context;
         private readonly ITokenService _tokenService;
         private readonly IHashService _hashService;
-        private readonly ISendTelegramMessage _msg;
-        public LoginCommandHandler(IAppDbContext context, ITokenService tokenService, IHashService hashService, ISendTelegramMessage msg)
+        public LoginCommandHandler(IAppDbContext context, ITokenService tokenService, IHashService hashService)
         {
             _context = context;
             _tokenService = tokenService;
             _hashService = hashService;
-            _msg = msg;
         }
         public async Task<LoginViewModel> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
@@ -40,10 +38,8 @@ namespace ElectroTrading.Application.UseCase.Authorizes.CommandHandlers
                     new Claim(ClaimTypes.Role, user.Role.ToString())
                 };
 
-            viewModel.Token = "Bearer " + _tokenService.GetAccessToken(claims.ToArray());
+            viewModel.Token = _tokenService.GetAccessToken(claims.ToArray());
             viewModel.UserRole = user.Role.ToString();
-
-           /* var a = await _msg.SendMessage(636809820, "sgddjh");*/
 
             return viewModel;
         }

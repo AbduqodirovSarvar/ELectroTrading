@@ -8,9 +8,9 @@ namespace ElectroTrading.Domain.Enum
 {
     public enum CategoryUnity
     {
-        meter = 1,
-        SquareMeter = 2,
-        KiloGram = 3,
-        Piece =4
+        metr = 1,
+        KvMetr = 2,
+        Kg = 3,
+        Dona =4
     }
 }

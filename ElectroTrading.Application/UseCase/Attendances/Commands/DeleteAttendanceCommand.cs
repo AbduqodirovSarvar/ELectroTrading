@@ -11,6 +11,7 @@ namespace ElectroTrading.Application.UseCase.Attendances.Commands
 {
     public class DeleteAttendanceCommand : ICommand<bool>
     {
+        public DeleteAttendanceCommand(List<int> ids) { AttendanceIds = ids; }
         public List<int> AttendanceIds { get; set; } = new List<int>();
     }
 }

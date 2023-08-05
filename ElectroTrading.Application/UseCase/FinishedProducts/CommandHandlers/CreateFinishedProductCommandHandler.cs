@@ -17,10 +17,12 @@ namespace ElectroTrading.Application.UseCase.FinishedProducts.CommandHandlers
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
-        public CreateFinishedProductCommandHandler(IAppDbContext context, IMapper mapper)
+        private readonly ISendTelegramMessage _sendMsg;
+        public CreateFinishedProductCommandHandler(IAppDbContext context, IMapper mapper, ISendTelegramMessage sendMsg)
         {
             _context = context;
             _mapper = mapper;
+            _sendMsg = sendMsg;
         }
 
         public async Task<FinishedProductViewModel> Handle(CreateFinishedProductCommand request, CancellationToken cancellationToken)
@@ -43,6 +45,8 @@ namespace ElectroTrading.Application.UseCase.FinishedProducts.CommandHandlers
                 viewModel = _mapper.Map<FinishedProductViewModel>(createModel);
                 viewModel.Product = _mapper.Map<ProductViewModel>(await _context.Products.FirstOrDefaultAsync(x => x.Id == createModel.ProductId, cancellationToken));
             }
+
+            await _sendMsg.SendMessage(await _sendMsg.MakeFinishedProduct(viewModel));
 
             return viewModel;
         }

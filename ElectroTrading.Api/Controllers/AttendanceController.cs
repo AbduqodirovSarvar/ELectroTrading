@@ -1,4 +1,5 @@
-﻿using ElectroTrading.Application.UseCase.Attendances.Commands;
+﻿using ElectroTrading.Application.Models.DTOs;
+using ElectroTrading.Application.UseCase.Attendances.Commands;
 using ElectroTrading.Application.UseCase.Attendances.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,11 +20,11 @@ namespace ElectroTrading.Api.Controllers
 
         [Authorize(Policy = "AdminActions")]
         [HttpPost]
-        public async Task<IActionResult> CreateAttendance([FromBody] CreateAttendanceCommand command)
+        public async Task<IActionResult> CreateAttendance([FromBody] List<AttendanceCreateDto> command)
         {
             try
             {
-                return Ok(await _mediator.Send(command));
+                return Ok(await _mediator.Send(new CreateAttendanceCommand(command)));
             }
             catch (Exception ex)
             {
@@ -53,11 +54,11 @@ namespace ElectroTrading.Api.Controllers
 
         [Authorize(Policy = "AdminActions")]
         [HttpPatch]
-        public async Task<IActionResult> UpdateAttendance([FromBody] UpdateAttendanceCommand command)
+        public async Task<IActionResult> UpdateAttendance([FromBody] List<UpdateAttendanceDto> command)
         {
             try
             {
-                return Ok(await _mediator.Send(command));
+                return Ok(await _mediator.Send(new UpdateAttendanceCommand(command)));
             }
             catch (Exception ex)
             {
@@ -67,9 +68,9 @@ namespace ElectroTrading.Api.Controllers
 
         [Authorize(Policy = "AdminActions")]
         [HttpDelete]
-        public async Task<IActionResult> DeleteAttendance([FromBody] DeleteAttendanceCommand command)
+        public async Task<IActionResult> DeleteAttendance([FromBody] List<int> command)
         {
-            return Ok(await _mediator.Send(command));
+            return Ok(await _mediator.Send(new DeleteAttendanceCommand(command)));
         }
     }
 }

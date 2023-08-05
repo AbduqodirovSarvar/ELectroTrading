@@ -11,8 +11,8 @@ namespace ElectroTrading.Application.UseCase.Photos.Queries
 {
     public class GetProductPhotoQuery : IQuery<(string, string)>
     {
-        public GetProductPhotoQuery(int id) { Id = id; }
+        public GetProductPhotoQuery(int id) { ProductId = id; }
         [Required]
-        public int Id { get; set; }
+        public int ProductId { get; set; }
     }
 }

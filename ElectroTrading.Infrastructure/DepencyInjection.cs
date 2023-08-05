@@ -30,6 +30,13 @@ namespace ElectroTrading.Infrastructure
 
             _services.Configure<JWTConfiguration>(_config.GetSection("JWTConfiguration"));
 
+            var secretWord = _config["JWTConfiguration:Secret"];
+
+            if(secretWord == null || secretWord.Length <= 1)
+            {
+                throw new ArgumentNullException("Secret word for authorization", nameof(secretWord));
+            }
+
             _services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -41,7 +48,7 @@ namespace ElectroTrading.Infrastructure
                         ValidateIssuerSigningKey = true,
                         ValidAudience = _config["JWTConfiguration:ValidAudience"],
                         ValidIssuer = _config["JWTConfiguration:ValidIssuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWTConfiguration:Secret"]))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretWord))
                     };
                 });
 

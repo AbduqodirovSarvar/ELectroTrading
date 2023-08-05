@@ -17,10 +17,12 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
-        public CreateOrderCommandHandler(IAppDbContext context, IMapper mapper)
+        private readonly ISendTelegramMessage _sending;
+        public CreateOrderCommandHandler(IAppDbContext context, IMapper mapper, ISendTelegramMessage sending)
         {
             _context = context;
             _mapper = mapper;
+            _sending = sending;
         }
 
         public async Task<OrderViewModel> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
@@ -37,7 +39,9 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
 
             OrderViewModel view = _mapper.Map<OrderViewModel>(order);
             view.Product = _mapper.Map<ProductViewModel>(product);
-            
+
+            await _sending.SendMessage(await _sending.MakeOrdertext(view));
+
             return view;
         }
     }

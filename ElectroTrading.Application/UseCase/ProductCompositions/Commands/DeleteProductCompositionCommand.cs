@@ -11,7 +11,11 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.Commands
 {
     public class DeleteProductCompositionCommand : ICommand<bool>
     {
-        public DeleteProductCompositionCommand() { }
+        public DeleteProductCompositionCommand(int productid, List<int> compids) 
+        {
+            ProductId = productid;
+            CompositionIds = compids;
+        }
         [Required]
         public int ProductId { get; set; }
         public List<int> CompositionIds { get; set; } = new List<int>();

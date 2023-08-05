@@ -12,6 +12,11 @@ namespace ElectroTrading.Application.UseCase.Attendances.Commands
 {
     public class CreateAttendanceCommand : ICommand<List<AttendanceViewModel>>
     {
+        public CreateAttendanceCommand(List<AttendanceCreateDto> attendances)
+        {
+            Attendances = attendances;
+        }
+
         public List<AttendanceCreateDto> Attendances { get; set; } = new List<AttendanceCreateDto>();
     }
 }

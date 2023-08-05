@@ -1,4 +1,5 @@
 using ElectroTrading.Application;
+using ElectroTrading.Application.Services;
 using ElectroTrading.Infrastructure;
 using Microsoft.OpenApi.Models;
 

@@ -23,7 +23,7 @@ namespace ElectroTrading.Application.UseCase.Photos.QueryHandlers
         }
         public async Task<(string, string)> Handle(GetProductPhotoQuery request, CancellationToken cancellationToken)
         {
-            var photo = await _context.ProductPhotos.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var photo = await _context.ProductPhotos.FirstOrDefaultAsync(x => x.ProductId == request.ProductId, cancellationToken);
             if (photo == null)
             {
                 throw new NotFoundException();

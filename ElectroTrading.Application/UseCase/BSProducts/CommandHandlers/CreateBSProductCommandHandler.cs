@@ -17,10 +17,12 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
-        public CreateBSProductCommandHandler(IAppDbContext context, IMapper mapper)
+        private readonly ISendTelegramMessage _sendMsg;
+        public CreateBSProductCommandHandler(IAppDbContext context, IMapper mapper, ISendTelegramMessage sendMsg)
         {
             _context = context;
             _mapper = mapper;
+            _sendMsg = sendMsg;
         }
 
         public async Task<BSProductViewModel> Handle(CreateBSProductCommand request, CancellationToken cancellationToken)
@@ -30,8 +32,17 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
 
             await _context.BoughtAndSoldsProducts.AddAsync(bsProduct, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            
-            return _mapper.Map<BSProductViewModel>(bsProduct);
+
+            var viewModel = _mapper.Map<BSProductViewModel>(bsProduct);
+            viewModel.Product = _mapper.Map<ProductViewModel>(await _context.Products.FirstOrDefaultAsync(x => x.Id == bsProduct.ProductId, cancellationToken));
+            viewModel.Price = request.Price;
+            viewModel.Amount = request.Amount;
+            viewModel.TotalPrice = Convert.ToDecimal(viewModel.Amount) * viewModel.Price;
+
+
+            await _sendMsg.SendMessage(await _sendMsg.MakeBSProductText(viewModel));
+
+            return viewModel;
         }
     }
 }

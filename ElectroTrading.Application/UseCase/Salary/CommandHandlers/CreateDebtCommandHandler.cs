@@ -18,11 +18,13 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
-        public CreateDebtCommandHandler(IAppDbContext context, IMapper mapper, ICurrentUserService currentUserService)
+        private readonly ISendTelegramMessage _sendMsg;
+        public CreateDebtCommandHandler(IAppDbContext context, IMapper mapper, ICurrentUserService currentUserService, ISendTelegramMessage sendMsg)
         {
             _context = context;
             _mapper = mapper;
             _currentUserService = currentUserService;
+            _sendMsg = sendMsg;
         }
 
         public async Task<DebtViewModel> Handle(CreateDebtCommand request, CancellationToken cancellationToken)
@@ -40,6 +42,8 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
 
             DebtViewModel viewModel = _mapper.Map<DebtViewModel>(createModel);
             viewModel.Employee = _mapper.Map<EmployeeViewModel>(request);
+
+            await _sendMsg.SendMessage(await _sendMsg.MakeIndebtText(viewModel));
 
             return viewModel;
         }

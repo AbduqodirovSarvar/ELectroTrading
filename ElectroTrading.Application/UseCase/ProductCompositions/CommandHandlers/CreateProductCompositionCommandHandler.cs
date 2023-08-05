@@ -47,7 +47,7 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
                 }
                 else
                 {
-                    composition.Amount = composition.Amount + request.Amount;
+                    composition.Amount = composition.Amount + comp.Amount;
                 }
             }
 

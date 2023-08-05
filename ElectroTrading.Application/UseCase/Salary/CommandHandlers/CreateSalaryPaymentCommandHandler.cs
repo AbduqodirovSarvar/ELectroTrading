@@ -18,12 +18,14 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
         private readonly ICurrentUserService _currentUserService;
+        private readonly ISendTelegramMessage _sendMsg;
 
-        public CreateSalaryPaymentCommandHandler(IAppDbContext context, IMapper mapper, ICurrentUserService currentUserService)
+        public CreateSalaryPaymentCommandHandler(IAppDbContext context, IMapper mapper, ICurrentUserService currentUserService, ISendTelegramMessage sendMsg)
         {
             _context = context;
             _mapper = mapper;
             _currentUserService = currentUserService;
+            _sendMsg = sendMsg;
         }
 
         public async Task<SalaryViewModel> Handle(CreateSalaryPaymentCommand request, CancellationToken cancellationToken)
@@ -40,6 +42,8 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
 
             SalaryViewModel viewModel = _mapper.Map<SalaryViewModel>(createModel);
             viewModel.Employee = _mapper.Map<EmployeeViewModel>(employee);
+
+            await _sendMsg.SendMessage(await _sendMsg.MakeSalaryText(viewModel));
 
             return viewModel;
         }
