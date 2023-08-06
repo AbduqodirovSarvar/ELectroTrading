@@ -41,7 +41,7 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
             await _context.SaveChangesAsync(cancellationToken);
 
             DebtViewModel viewModel = _mapper.Map<DebtViewModel>(createModel);
-            viewModel.Employee = _mapper.Map<EmployeeViewModel>(request);
+            viewModel.Employee = _mapper.Map<EmployeeViewModel>(employee);
 
             await _sendMsg.SendMessage(await _sendMsg.MakeIndebtText(viewModel));
 

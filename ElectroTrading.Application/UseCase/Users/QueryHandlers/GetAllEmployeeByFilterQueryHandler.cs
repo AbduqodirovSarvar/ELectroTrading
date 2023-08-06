@@ -15,10 +15,12 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
-        public GetAllEmployeeByFilterQueryHandler(IAppDbContext context, IMapper mapper)
+        private readonly ISendTelegramMessage _msg;
+        public GetAllEmployeeByFilterQueryHandler(IAppDbContext context, IMapper mapper, ISendTelegramMessage msg)
         {
             _context = context;
             _mapper = mapper;
+            _msg = msg;
         }
 
         public async Task<List<EmployeeViewModel>> Handle(GetAllEmployeeByFilterQuery request, CancellationToken cancellationToken)

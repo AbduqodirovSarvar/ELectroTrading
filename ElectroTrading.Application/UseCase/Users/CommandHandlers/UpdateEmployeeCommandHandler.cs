@@ -28,6 +28,7 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
                 throw new NotFoundException();
 
             employee.Phone = request?.Phone ?? employee.Phone;
+            employee.Name = request?.Name ?? employee.Name;
             employee.LastName = request?.LastName ?? employee.LastName;
             employee.PassportId = request?.PassportId ?? employee.PassportId;
             employee.Position = request?.Position ?? employee.Position;

@@ -3,12 +3,14 @@ using ElectroTrading.Application.Exceptions;
 using ElectroTrading.Application.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 
 namespace ElectroTrading.Application.Services
 {
@@ -24,9 +26,10 @@ namespace ElectroTrading.Application.Services
         public Task<string> MakeAttendanceText(List<AttendanceViewModel> attendances)
         {
             StringBuilder msg = new StringBuilder();
+            msg.Append("<b>🚶‍♂️ Yo'qlama :</b>\n\n");
             foreach(var att in attendances)
             {
-                msg.Append(att.LastName.ToString() + " " + att.FirstName.ToString() + "\n👷 Lavozimi : " + att.Position.ToString() + "\n☀️ Asosiy ish : ");
+                msg.Append("<b>" + att.LastName.ToString() + " " + att.FirstName.ToString() + "</b>"+ "\n👷 Lavozimi : " + att.Position.ToString() + "\n☀️ Asosiy ish : ");
                 if(att.IsMainWork)
                 {
                     msg.Append("✅\n");
@@ -60,15 +63,15 @@ namespace ElectroTrading.Application.Services
             StringBuilder msg = new StringBuilder();
             if (productView.Category == Domain.Enum.CategoryProcess.Bought)
             {
-                msg.Append("📥 Sotib olindi :\r\n{\r\n🛠 Mahsulot nomi : ");
+                msg.Append("<b>📥 Sotib olindi :</b>\r\n\r\n🛠 Mahsulot nomi : ");
             }
             else
             {
-                msg.Append("📤 Sotildi :\r\n{\r\n🛠 Mahsulot nomi : ");
+                msg.Append("<b>📤 Sotildi :</b>\r\n\r\n🛠 Mahsulot nomi : ");
             }
             msg.Append(productView.Product.Name.ToString() + "\r\n⚖️ Miqdori : " + productView.Amount.ToString());
             msg.Append(" " + productView.Product.Category.ToString() + "\r\n💰 Narxi : " + productView.Price.ToString() + "\r\n💵 Umumiy narxi : " + productView.TotalPrice.ToString() + "\r\n📅 Sana : ");
-            msg.Append(productView.CreatedDate.ToString() + "\r\n}");
+            msg.Append(productView.CreatedDate.ToString() + "\r\n");
 
             return Task.FromResult(msg.ToString());
         }
@@ -80,8 +83,8 @@ namespace ElectroTrading.Application.Services
                 throw new ArgumentNullException("Finished Product", "product");
             }
             StringBuilder msg = new StringBuilder();
-            msg.Append("📦 Tayyor bo'ldi :\n{\n🛠 Mahsulot nomi : " + finishedProductView.Product.Name.ToString() + "\n⚖️ Miqdori : " + finishedProductView.Amount.ToString());
-            msg.Append(finishedProductView.Product.Category.ToString() + "\n}");
+            msg.Append("<b>📦 Mahsulot tayyor bo'ldi :</b>\n\n🛠 Mahsulot nomi : " + finishedProductView.Product.Name.ToString() + "\n⚖️ Miqdori : " + finishedProductView.Amount.ToString());
+            msg.Append(finishedProductView.Product.Category.ToString() + "\n");
 
             return Task.FromResult(msg.ToString());
         }
@@ -93,23 +96,31 @@ namespace ElectroTrading.Application.Services
                 throw new NotFoundException();
 
             StringBuilder msg = new StringBuilder();
-            msg.Append("Avans Berildi :\r\n{\r\n" + "👨‍🔧 " + debtView.Employee.LastName.ToString() + " " + debtView.Employee.Name.ToString() + " : " + debtView.Summs.ToString());
-            msg.Append("\r\n\\🧾 Tavsifi : " + debtView.Description.ToString() + "\r\n👨‍✈️ Kim berdi : " + user.Phone.ToString() + "\n}");
+            msg.Append("<b>💸 Avans Berildi :</b>\r\n\r\n" + "<b>👨‍🔧 " + debtView.Employee.LastName.ToString() + " " + debtView.Employee.Name.ToString() + " : </b>" + debtView.Summs.ToString());
+            msg.Append("\r\n\\🧾 Tavsifi : " + debtView.Description.ToString() + "\r\n👨‍✈️ Kim berdi : " + user.Phone.ToString() + "\n");
 
             return Task.FromResult(msg.ToString());
         }
 
         public Task<string> MakeOrdertext(OrderViewModel orderView)
         {
-            if(orderView == null || orderView.Product == null)
+            if (orderView == null || orderView.Product == null)
             {
                 throw new ArgumentNullException("Order Product", nameof(orderView.Product));
             }
 
             StringBuilder msg = new StringBuilder();
 
-            msg.Append("🗳 Buyurtma :\n{\n🛠 Mahsulot nomi : " + orderView.Product.Name.ToString() + "\n🧾 Tavsifi : " + orderView.Description.ToString() + "\n⚖️ Miqdori : " + orderView.Amount.ToString() + " " + orderView.Product.Category.ToString() + "\n");
-            msg.Append("💰 Narxi :" + orderView.Price.ToString() + "\n📅 Muddati : " + orderView.DeadLine.ToString() + "\n}");
+            msg.Append("<b>🗳 Buyurtma qo'shildi :</b>\n\n🛠 Mahsulot nomi : " + orderView.Product.Name.ToString() + "\n🧾 Tavsifi : " + orderView.Description.ToString() + "\n⚖️ Miqdori : " + orderView.Amount.ToString() + " " + orderView.Product.Category.ToString() + "\n");
+            msg.Append("💰 Narxi :" + orderView.Price.ToString() + "\n📅 Muddati : " + orderView.DeadLine.ToString() + "\n" + "📊 Status : ");
+            if (orderView.IsSubmitted)
+            {
+                msg.Append("✅\n");
+            }
+            else
+            {
+                msg.Append("⏳\n");
+            }
 
             return Task.FromResult(msg.ToString());
         }
@@ -122,7 +133,7 @@ namespace ElectroTrading.Application.Services
             }
             StringBuilder msg = new StringBuilder();
 
-            msg.Append("💸 Oylik berildi : \n" + "👨‍🔧 " + salaryView.Employee.LastName.ToString() + " " + salaryView.Employee.Name.ToString() + " : " + salaryView.Summs.ToString() + "\n");
+            msg.Append("<b>💸 Oylik berildi :</b> \n" + "<b>👨‍🔧 " + salaryView.Employee.LastName.ToString() + " " + salaryView.Employee.Name.ToString() + " :</b> " + salaryView.Summs.ToString() + "\n");
             var user = _context.Users.FirstOrDefault(x => x.Id == salaryView.EmployeeId);
             if(user == null)
             {
@@ -135,7 +146,25 @@ namespace ElectroTrading.Application.Services
 
         public Task<string> MakeUpdateOrdertext(OrderViewModel orderView)
         {
-            throw new NotImplementedException();
+            if (orderView == null || orderView.Product == null)
+            {
+                throw new ArgumentNullException("Order Product", nameof(orderView.Product));
+            }
+
+            StringBuilder msg = new StringBuilder();
+
+            msg.Append("<b>🗳 Buyurtma o'zgartirildi :</b>\n\n🛠 Mahsulot nomi : " + orderView.Product.Name.ToString() + "\n🧾 Tavsifi : " + orderView.Description.ToString() + "\n⚖️ Miqdori : " + orderView.Amount.ToString() + " " + orderView.Product.Category.ToString() + "\n");
+            msg.Append("💰 Narxi :" + orderView.Price.ToString() + "\n📅 Muddati : " + orderView.DeadLine.ToString() + "\n" + " 📊 Status : ");
+            if(orderView.IsSubmitted)
+            {
+                msg.Append("✅\n");
+            }
+            else
+            {
+                msg.Append("⏳\n");
+            }
+
+            return Task.FromResult(msg.ToString());
         }
 
         public async Task<string> SendMessage(string message)
@@ -160,11 +189,12 @@ namespace ElectroTrading.Application.Services
             {
                 try
                 {
-                    await botClient.SendTextMessageAsync(chatId, message);
+                    await botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Html);
                 }
                 catch(Exception ex) 
                 {
                     Console.WriteLine(ex.Message.ToString());
+                    continue;
                 }
             }
 

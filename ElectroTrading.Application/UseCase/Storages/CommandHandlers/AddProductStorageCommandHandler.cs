@@ -31,7 +31,7 @@ namespace ElectroTrading.Application.UseCase.Storages.CommandHandlers
                 var st = _mapper.Map<Storage>(request);
                 st.CreatedDate = DateTime.UtcNow;
 
-                viewModel = _mapper.Map<StorageViewModel>(request);
+                viewModel = _mapper.Map<StorageViewModel>(st);
                 viewModel.Product = _mapper.Map<ProductViewModel>(await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken));
 
                 await _context.Storages.AddAsync(st, cancellationToken); 

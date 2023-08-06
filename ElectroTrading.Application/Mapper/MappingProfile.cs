@@ -47,6 +47,7 @@ namespace ElectroTrading.Application.Mapper
             CreateMap<ProductPhoto, PhotoViewModel>().ReverseMap();
             CreateMap<CreateAttendanceCommand, Attendance>().ReverseMap();
             CreateMap<Employee, EmployeeViewModel>().ReverseMap();
+            CreateMap<Storage, StorageViewModel>().ReverseMap();
         }
     }
 }
