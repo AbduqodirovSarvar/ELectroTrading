@@ -18,10 +18,12 @@ namespace ElectroTrading.Application.Services
     {
         private readonly IAppDbContext _context;
         private readonly IConfiguration _configuration;
-        public SendTelegramMessage(IAppDbContext context, IConfiguration configuration)
+        private readonly ITelegramBotClient _botClient;
+        public SendTelegramMessage(IAppDbContext context, IConfiguration configuration, ITelegramBotClient botClient)
         {
             _context = context;
             _configuration = configuration;
+            _botClient = botClient;
         }
         public Task<string> MakeAttendanceText(List<AttendanceViewModel> attendances)
         {
@@ -169,13 +171,6 @@ namespace ElectroTrading.Application.Services
 
         public async Task<string> SendMessage(string message)
         {
-            var token = _configuration.GetSection("TelegramBot:Token").Value;
-            if (token == null || token.Length <= 1)
-            {
-                throw new ArgumentNullException("Telegram bot", nameof(token));
-            }
-            TelegramBotClient botClient = new TelegramBotClient(token);
-
             var stringIds = _configuration.GetSection("TelegramBot:UserIds").Value;
 
             if(stringIds == null || stringIds.Length == 0)
@@ -189,9 +184,9 @@ namespace ElectroTrading.Application.Services
             {
                 try
                 {
-                    await botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Html);
+                    await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Html);
                 }
-                catch(Exception ex) 
+                catch(Exception ex)
                 {
                     Console.WriteLine(ex.Message.ToString());
                     continue;

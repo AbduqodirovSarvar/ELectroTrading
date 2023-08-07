@@ -24,13 +24,14 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
 
         public async Task<EmployeeViewModel> Handle(GetEmployeeQuery request, CancellationToken cancellationToken)
         {
-            var employee = await _context.Employees.Include(x => x.PaymentSalarys).Include(x => x.EmployeeDebts).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var employee = await _context.Employees.Include(x => x.PaymentSalarys).Include(x => x.EmployeeDebts).Include(x => x.Attendances).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (employee == null)
                 throw new NotFoundException();
 
             EmployeeViewModel viewModel = _mapper.Map<EmployeeViewModel>(employee);
-            viewModel.Salaries = _mapper.Map<List<SalaryViewModel>>(employee.PaymentSalarys);
+            viewModel.Salaries = _mapper.Map<List<SalaryViewModel>>(employee.PaymentSalarys.Where(x => x.CreatedDate.Month == DateTime.UtcNow.Month));
             viewModel.Debts = _mapper.Map<List<DebtViewModel>>(employee.EmployeeDebts);
+            viewModel.Attendances = _mapper.Map<List<AttendanceViewModel>>(employee.Attendances);
 
             return viewModel;
         }

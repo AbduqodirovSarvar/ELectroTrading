@@ -23,7 +23,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
-builder.Services.ApplicationService();
+builder.Services.ApplicationService(builder.Configuration);
 builder.Services.InfrasturctureServices(builder.Configuration);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

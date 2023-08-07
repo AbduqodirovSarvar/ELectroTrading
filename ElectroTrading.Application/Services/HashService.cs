@@ -12,11 +12,13 @@ namespace ElectroTrading.Application.Services
     {
         public string GetHash(string password)
         {
-            var sha256 = new SHA256Managed();
-            var bytes = Encoding.UTF8.GetBytes(password);
-            var hash = sha256.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashBytes = sha256.ComputeHash(bytes);
+                string hash = Convert.ToBase64String(hashBytes);
+                return hash;
+            }
         }
-
     }
 }
