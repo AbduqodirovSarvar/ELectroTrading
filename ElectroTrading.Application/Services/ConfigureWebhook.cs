@@ -14,32 +14,25 @@ namespace ElectroTrading.Application.Services
     public class ConfigureWebhook : IHostedService
     {
         private readonly ILogger<ConfigureWebhook> _logger;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly ITelegramBotClient _botClient;
 
-        public ConfigureWebhook(ILogger<ConfigureWebhook> logger, IServiceProvider serviceProvider)
+        public ConfigureWebhook(ILogger<ConfigureWebhook> logger, ITelegramBotClient botClient)
         {
             _logger = logger;
-            _serviceProvider = serviceProvider;
+            _botClient = botClient;
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        public  Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var _botClient = scope.ServiceProvider.GetRequiredService<ITelegramBotClient>();
-
-            await _botClient.SendTextMessageAsync(chatId: 636809820, text: "Web Project is running...", cancellationToken: cancellationToken);
-
             _logger.LogInformation("Running...");
+            return Task.CompletedTask;
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var _botClient = scope.ServiceProvider.GetRequiredService<ITelegramBotClient>();
+            await _botClient.SendTextMessageAsync(chatId: 636809820, text: "Web Project is sleeping...", cancellationToken: cancellationToken);
 
-            await _botClient.SendTextMessageAsync(chatId: 636809820, text: "Web Project stopped", cancellationToken: cancellationToken);
-
-            _logger.LogInformation("Stopped !");
+            _logger.LogInformation("Sleeping !");
         }
     }
 }
