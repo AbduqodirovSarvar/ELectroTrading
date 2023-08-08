@@ -29,9 +29,9 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
                 throw new NotFoundException();
 
             EmployeeViewModel viewModel = _mapper.Map<EmployeeViewModel>(employee);
-            viewModel.Salaries = _mapper.Map<List<SalaryViewModel>>(employee.PaymentSalarys.Where(x => x.CreatedDate.Month == DateTime.UtcNow.Month));
-            viewModel.Debts = _mapper.Map<List<DebtViewModel>>(employee.EmployeeDebts);
-            viewModel.Attendances = _mapper.Map<List<AttendanceViewModel>>(employee.Attendances);
+            viewModel.Salaries = _mapper.Map<List<SalaryViewModel>>(employee.PaymentSalarys.Where(x => x.CreatedDate.Year == DateTime.UtcNow.Year));
+            viewModel.Debts = _mapper.Map<List<DebtViewModel>>(employee.EmployeeDebts.Where(x => x.CreatedDate > employee.PaymentSalarys.Last().CreatedDate));
+            viewModel.Attendances = _mapper.Map<List<AttendanceViewModel>>(employee.Attendances.Where(x => x.Day.Month == DateTime.UtcNow.Month));
 
             return viewModel;
         }

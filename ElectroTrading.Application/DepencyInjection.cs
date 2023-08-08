@@ -4,6 +4,7 @@ using ElectroTrading.Application.Mapper;
 using ElectroTrading.Application.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace ElectroTrading.Application
             _services.AddScoped<ICurrentUserService, CurrentUserService>();
             _services.AddScoped<IHashService, HashService>();
             _services.AddScoped<ISendTelegramMessage, SendTelegramMessage>();
-            _services.AddScoped<ITelegramBotClient>(x => 
+            _services.AddSingleton<ITelegramBotClient>(x => 
             {
                 var token = _configuration.GetSection("TelegramBot:Token").Value;
                 if (token == null)
@@ -33,6 +34,7 @@ namespace ElectroTrading.Application
                 }
                 return new TelegramBotClient(token);
             });
+            _services.AddHostedService<ConfigureWebhook>();
 
             var mappingconfig = new MapperConfiguration(x =>
             {

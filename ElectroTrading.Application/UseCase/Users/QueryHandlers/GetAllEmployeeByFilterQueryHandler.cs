@@ -25,7 +25,7 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
 
         public async Task<List<EmployeeViewModel>> Handle(GetAllEmployeeByFilterQuery request, CancellationToken cancellationToken)
         {
-            var employees = await _context.Employees.Include(x => x.Attendances).Include(x => x.EmployeeDebts).Include(x => x.PaymentSalarys).ToListAsync(cancellationToken);
+            var employees = await _context.Employees.ToListAsync(cancellationToken);
             if (request?.Month != null)
             {
                 employees = employees
