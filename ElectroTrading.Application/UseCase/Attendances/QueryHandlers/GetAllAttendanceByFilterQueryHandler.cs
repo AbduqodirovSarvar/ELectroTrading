@@ -32,7 +32,8 @@ namespace ElectroTrading.Application.UseCase.Attendances.QueryHandlers
             }
 
             List<AttendanceViewModel> attendViews = _mapper.Map<List<AttendanceViewModel>>(attends);
-            attendViews.ForEach(async x =>
+
+            foreach (var x in attendViews)
             {
                 var employee = await _context.Employees.FirstOrDefaultAsync(e => e.Id == x.EmployeeId, cancellationToken);
                 if (employee != null)
@@ -41,7 +42,8 @@ namespace ElectroTrading.Application.UseCase.Attendances.QueryHandlers
                     x.LastName = employee.LastName;
                     x.Position = employee.Position;
                 }
-            });
+            }
+
             return attendViews;
         }
     }

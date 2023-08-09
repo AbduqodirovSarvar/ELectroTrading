@@ -37,6 +37,11 @@ namespace ElectroTrading.Infrastructure.DbContexts
         public DbSet<Storage> Storages { get; set; }
         public DbSet<ProductPhoto> ProductPhotos { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging(false);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

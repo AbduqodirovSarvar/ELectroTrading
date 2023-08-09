@@ -7,6 +7,7 @@ using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
@@ -178,13 +179,16 @@ namespace ElectroTrading.Application.Services
                 throw new ArgumentNullException("Telegram users", nameof(stringIds));
             }
 
-            List<int> chatIds = stringIds.Split(',').Select(int.Parse).ToList();
-            
-            foreach (int chatId in chatIds)
+            List<long> chatIds = stringIds.Split(',')
+                .Select(id => BigInteger.Parse(id.Trim()))
+                    .Select(bigInt => (long)bigInt)
+                        .ToList();
+
+            foreach (var id in chatIds)
             {
                 try
                 {
-                    await _botClient.SendTextMessageAsync(chatId, message, parseMode: ParseMode.Html);
+                    await _botClient.SendTextMessageAsync(chatId: id, text: message, parseMode: ParseMode.Html);
                 }
                 catch(Exception ex)
                 {
