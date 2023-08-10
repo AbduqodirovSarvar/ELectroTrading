@@ -3,6 +3,7 @@ using ElectroTrading.Infrastructure.DbContexts;
 using ElectroTrading.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,12 +21,19 @@ namespace ElectroTrading.Infrastructure
     {
         public static IServiceCollection InfrasturctureServices(this IServiceCollection _services, IConfiguration _config)
         {
-            _services.AddDbContextFactory<AppDbContext>(opt => opt.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
+            //_services.AddDbContextFactory<AppDbContext>(opt => opt.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
 
-           /* _services.AddDbContext<AppDbContext>(options
-                => options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));*/
+            _services.AddDbContext<AppDbContext>(options
+                => options.UseNpgsql(_config.GetConnectionString("DefaultConnection")));
 
             _services.AddScoped<IAppDbContext, AppDbContext>();
+
+            /*_services.AddSingleton<IDesignTimeDbContextFactory<AppDbContext>>(provider =>
+            {
+                var configuration = provider.GetRequiredService<IConfiguration>();
+                return new AppDbContextFactory(configuration);
+            });*/
+
             _services.AddScoped<ITokenService, TokenService>();
 
             _services.Configure<JWTConfiguration>(_config.GetSection("JWTConfiguration"));

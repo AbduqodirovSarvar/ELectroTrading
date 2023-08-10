@@ -1,4 +1,5 @@
 ﻿using ElectroTrading.Application.UseCase.FinishedProducts.Commands;
+using ElectroTrading.Application.UseCase.FinishedProducts.Queries;
 using ElectroTrading.Application.UseCase.Salary.Commands;
 using ElectroTrading.Application.UseCase.Salary.Queries;
 using MediatR;
@@ -22,6 +23,26 @@ namespace ElectroTrading.Api.Controllers
         [Authorize(Policy = "AdminActions")]
         [HttpPost]
         public async Task<IActionResult> CreateFinishedProduct([FromBody] CreateFinishedProductCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllFinishedProduct()
+        {
+            return Ok(await _mediator.Send(new GetAllFinishedProductQuery()));
+        }
+
+        [Authorize(Policy = "AdminActions")]
+        [HttpPatch]
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateFinishedProductCommand command)
         {
             try
             {

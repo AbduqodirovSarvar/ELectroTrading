@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElectroTrading.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230804042051_Initial")]
+    [Migration("20230810075716_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -297,6 +297,9 @@ namespace ElectroTrading.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsOnSale")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -359,7 +362,8 @@ namespace ElectroTrading.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("ProductPhotos");
                 });
@@ -418,7 +422,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 8, 4, 4, 20, 51, 137, DateTimeKind.Utc).AddTicks(7145),
+                            CreatedDate = new DateTime(2023, 8, 10, 7, 57, 16, 810, DateTimeKind.Utc).AddTicks(3815),
                             Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
                             Phone = "ElectroTradingAdmin",
                             Role = 2
@@ -531,8 +535,8 @@ namespace ElectroTrading.Infrastructure.Migrations
             modelBuilder.Entity("ElectroTrading.Domain.Entities.ProductPhoto", b =>
                 {
                     b.HasOne("ElectroTrading.Domain.Entities.Product", "Product")
-                        .WithMany("Photos")
-                        .HasForeignKey("ProductId")
+                        .WithOne("Photo")
+                        .HasForeignKey("ElectroTrading.Domain.Entities.ProductPhoto", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -569,7 +573,7 @@ namespace ElectroTrading.Infrastructure.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("Photos");
+                    b.Navigation("Photo");
 
                     b.Navigation("Storages");
                 });

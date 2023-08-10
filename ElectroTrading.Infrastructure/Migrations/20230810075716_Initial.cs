@@ -44,6 +44,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Category = table.Column<int>(type: "integer", nullable: false),
+                    IsOnSale = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -299,7 +300,7 @@ namespace ElectroTrading.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedDate", "Password", "Phone", "Role" },
-                values: new object[] { 1, new DateTime(2023, 8, 4, 4, 20, 51, 137, DateTimeKind.Utc).AddTicks(7145), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
+                values: new object[] { 1, new DateTime(2023, 8, 10, 7, 57, 16, 810, DateTimeKind.Utc).AddTicks(3815), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",
@@ -359,7 +360,8 @@ namespace ElectroTrading.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_ProductPhotos_ProductId",
                 table: "ProductPhotos",
-                column: "ProductId");
+                column: "ProductId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Storages_ProductId",

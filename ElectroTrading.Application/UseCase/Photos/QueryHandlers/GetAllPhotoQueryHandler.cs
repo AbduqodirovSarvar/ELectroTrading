@@ -25,7 +25,7 @@ namespace ElectroTrading.Application.UseCase.Photos.QueryHandlers
         {
             var photos = await _context.ProductPhotos.ToListAsync(cancellationToken);
 
-            return _mapper.Map<List<PhotoViewModel>>(photos);
+            return _mapper.Map<List<PhotoViewModel>>(photos).OrderByDescending(x => x.Id).ToList();
         }
     }
 }

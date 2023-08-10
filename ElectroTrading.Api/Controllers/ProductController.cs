@@ -1,4 +1,5 @@
-﻿using ElectroTrading.Application.UseCase.ProductCompositions.Commands;
+﻿using ElectroTrading.Application.UseCase.OnSale.Commands;
+using ElectroTrading.Application.UseCase.ProductCompositions.Commands;
 using ElectroTrading.Application.UseCase.Products.Commands;
 using ElectroTrading.Application.UseCase.Products.Queries;
 using ElectroTrading.Application.UseCase.Salary.Commands;
@@ -34,7 +35,33 @@ namespace ElectroTrading.Api.Controllers
             }
         }
 
-        
+        [Authorize(Policy = "AdminActions")]
+        [HttpPost("Sale")]
+        public async Task<IActionResult> CreateSaleProduct([FromBody] CreateOnSaleCommand command)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(command));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Policy = "AdminActions")]
+        [HttpDelete("Sale/{Id}")]
+        public async Task<IActionResult> CreateProduct(int Id)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(new DeleteOnSaleCommand(Id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [Authorize(Policy = "AdminActions")]
         [HttpPatch]

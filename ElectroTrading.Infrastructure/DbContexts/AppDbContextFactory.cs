@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
+﻿/*using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ namespace ElectroTrading.Infrastructure.DbContexts
     public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
         private readonly IConfiguration _configuration;
+        public AppDbContextFactory() { }
         public AppDbContextFactory(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -24,4 +25,4 @@ namespace ElectroTrading.Infrastructure.DbContexts
             return new AppDbContext(optionsBuilder.Options);
         }
     }
-}
+}*/

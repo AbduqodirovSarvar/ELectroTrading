@@ -41,7 +41,7 @@ namespace ElectroTrading.Application.UseCase.Orders.QueryHandlers
                 view.Product = _mapper.Map<ProductViewModel>(product);
                 orderViews.Add(view);
             }
-            return orderViews;
+            return orderViews.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

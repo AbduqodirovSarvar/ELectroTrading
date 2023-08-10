@@ -37,7 +37,7 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
                             && x.CreatedDate.Day == request.Date.Value.Day).ToList();
             }
 
-            return _mapper.Map<List<SalaryViewModel>>(salaries);
+            return _mapper.Map<List<SalaryViewModel>>(salaries).OrderByDescending(x => x.Id).ToList();
         }
     }
 }

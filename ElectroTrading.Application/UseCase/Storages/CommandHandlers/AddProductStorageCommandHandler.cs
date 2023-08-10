@@ -24,7 +24,7 @@ namespace ElectroTrading.Application.UseCase.Storages.CommandHandlers
 
         public async Task<StorageViewModel> Handle(AddProductStorageCommand request, CancellationToken cancellationToken)
         {
-            var product = await _context.Storages.Include(x => x.Product).FirstOrDefaultAsync(x => x.ProductId == request.ProductId);
+            var product = await _context.Storages.Include(x => x.Product).FirstOrDefaultAsync(x => x.ProductId == request.ProductId, cancellationToken);
             StorageViewModel viewModel;
             if (product == null)
             {

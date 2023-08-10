@@ -44,7 +44,7 @@ namespace ElectroTrading.Application.UseCase.Attendances.QueryHandlers
                 }
             }
 
-            return attendViews;
+            return attendViews.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

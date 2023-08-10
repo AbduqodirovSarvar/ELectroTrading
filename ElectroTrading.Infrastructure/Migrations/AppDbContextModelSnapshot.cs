@@ -294,6 +294,9 @@ namespace ElectroTrading.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsOnSale")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -416,7 +419,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 8, 4, 20, 0, 58, 527, DateTimeKind.Utc).AddTicks(4232),
+                            CreatedDate = new DateTime(2023, 8, 10, 7, 57, 16, 810, DateTimeKind.Utc).AddTicks(3815),
                             Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
                             Phone = "ElectroTradingAdmin",
                             Role = 2

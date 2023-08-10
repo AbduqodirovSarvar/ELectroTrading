@@ -14,6 +14,7 @@ namespace ElectroTrading.Domain.Entities
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public CategoryUnity Category { get; set; }
+        public bool IsOnSale { get; set; } = false;
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public ProductPhoto? Photo { get; set; }
         public ICollection<ProductComposition> Compositions { get; set; } = new HashSet<ProductComposition>();

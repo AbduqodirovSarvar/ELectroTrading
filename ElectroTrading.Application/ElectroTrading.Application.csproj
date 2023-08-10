@@ -21,8 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCase\FinishedProducts\QueryHandlers\" />
     <Folder Include="UseCase\FinishedProducts\Queries\" />
+    <Folder Include="UseCase\OnSale\QueryHandlers\" />
+    <Folder Include="UseCase\OnSale\Queries\" />
     <Folder Include="UseCase\ProductCompositions\QueryHandlers\" />
     <Folder Include="UseCase\ProductCompositions\Queries\" />
   </ItemGroup>

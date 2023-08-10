@@ -15,7 +15,7 @@ namespace ElectroTrading.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(_configuration.GetSection("TelegramBot:UserIds").Value?.Split(',').Select(int.Parse).ToList());
+            return Ok(_configuration.GetSection("TelegramBot:UserIds").Value?.Split(',').Select(long.Parse).ToList());
         }
     }
 }

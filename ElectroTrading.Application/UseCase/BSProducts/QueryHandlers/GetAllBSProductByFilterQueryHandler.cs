@@ -44,7 +44,7 @@ namespace ElectroTrading.Application.UseCase.BSProducts.QueryHandlers
                 viewModel.Add(view);
             }
 
-            return viewModel;
+            return viewModel.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ElectroTrading.Application.UseCase.Products.Queries
         public GetAllProductByFilterQuery() { }
         public CategoryUnity? Category { get; set; } = null;
         public bool? isFinished { get; set; } = null;
+        public bool? isOnSale { get; set;} = null;
 
     }
 }

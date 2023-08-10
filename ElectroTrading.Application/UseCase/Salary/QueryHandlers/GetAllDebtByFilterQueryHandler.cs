@@ -38,7 +38,7 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
             }
 
             List<DebtViewModel> result = _mapper.Map<List<DebtViewModel>>(debts);
-            return result;
+            return result.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

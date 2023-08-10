@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ElectroTrading.Application.UseCase.Orders.Queries
+namespace ElectroTrading.Application.UseCase.FinishedProducts.Queries
 {
-    public class GetAllOrderByFilterQuery : IQuery<List<OrderViewModel>>
+    public class GetAllFinishedProductQuery : IQuery<List<FinishedProductViewModel>>
     {
-        public GetAllOrderByFilterQuery() { }
-        public bool? IsSubmitted { get; set; }
+
     }
 }

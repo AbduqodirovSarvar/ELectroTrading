@@ -45,6 +45,11 @@ namespace ElectroTrading.Application.UseCase.Products.QueryHandlers
                 }
             }
 
+            if(request?.isOnSale != null)
+            {
+                products = products.Where(x => x.IsOnSale == request.isOnSale).ToList();
+            }
+
             List<ProductViewModel> result = new List<ProductViewModel>();
             foreach (var product in products)
             {
@@ -53,7 +58,7 @@ namespace ElectroTrading.Application.UseCase.Products.QueryHandlers
                 result.Add(viewModel);
             }
             
-            return result;
+            return result.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

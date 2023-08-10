@@ -23,7 +23,7 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
 
         public async Task<List<UserViewModel>> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
         {
-            return _mapper.Map<List<UserViewModel>>(await _context.Users.ToListAsync(cancellationToken));
+            return _mapper.Map<List<UserViewModel>>(await _context.Users.ToListAsync(cancellationToken)).OrderByDescending(x => x.Id).ToList();
         }
     }
 }

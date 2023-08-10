@@ -31,7 +31,7 @@ namespace ElectroTrading.Application.UseCase.Storages.QueryHandlers
                 viewModel.Product = _mapper.Map<ProductViewModel>(st.Product);
                 result.Add(viewModel);
             }
-            return result;
+            return result.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

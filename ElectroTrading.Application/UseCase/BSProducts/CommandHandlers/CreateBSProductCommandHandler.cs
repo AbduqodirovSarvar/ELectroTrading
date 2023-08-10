@@ -3,7 +3,9 @@ using ElectroTrading.Application.Abstractions;
 using ElectroTrading.Application.Exceptions;
 using ElectroTrading.Application.Models.ViewModels;
 using ElectroTrading.Application.UseCase.BSProducts.Commands;
+using ElectroTrading.Application.UseCase.Storages.Commands;
 using ElectroTrading.Domain.Entities;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,11 +20,13 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
         private readonly ISendTelegramMessage _sendMsg;
-        public CreateBSProductCommandHandler(IAppDbContext context, IMapper mapper, ISendTelegramMessage sendMsg)
+        private readonly IMediator _mediator;
+        public CreateBSProductCommandHandler(IAppDbContext context, IMapper mapper, ISendTelegramMessage sendMsg, IMediator mediator)
         {
             _context = context;
             _mapper = mapper;
             _sendMsg = sendMsg;
+            _mediator = mediator;
         }
 
         public async Task<BSProductViewModel> Handle(CreateBSProductCommand request, CancellationToken cancellationToken)
@@ -39,6 +43,18 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
             viewModel.Amount = request.Amount;
             viewModel.TotalPrice = Convert.ToDecimal(viewModel.Amount) * viewModel.Price;
 
+            if(request.Category == Domain.Enum.CategoryProcess.Bought)
+            {
+                try
+                {
+                    AddProductStorageCommand command = new AddProductStorageCommand();
+                    command.ProductId = bsProduct.ProductId;
+                    command.Amount = bsProduct.Amount;
+
+                    await _mediator.Send(command);
+                }
+                catch { }
+            }
 
             await _sendMsg.SendMessage(await _sendMsg.MakeBSProductText(viewModel));
 

@@ -15,12 +15,10 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
-        private readonly ISendTelegramMessage _msg;
-        public GetAllEmployeeByFilterQueryHandler(IAppDbContext context, IMapper mapper, ISendTelegramMessage msg)
+        public GetAllEmployeeByFilterQueryHandler(IAppDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _msg = msg;
         }
 
         public async Task<List<EmployeeViewModel>> Handle(GetAllEmployeeByFilterQuery request, CancellationToken cancellationToken)
@@ -34,7 +32,7 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
                             && x.DeletedDate.Value.Month >= request.Month.Value.Month)).ToList();
             }
 
-            return _mapper.Map<List<EmployeeViewModel>>(employees);
+            return _mapper.Map<List<EmployeeViewModel>>(employees).OrderByDescending(x => x.Id).ToList();
         }
     }
 }
