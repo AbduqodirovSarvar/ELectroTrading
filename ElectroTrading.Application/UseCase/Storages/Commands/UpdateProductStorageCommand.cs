@@ -14,5 +14,6 @@ namespace ElectroTrading.Application.UseCase.Storages.Commands
         [Required]
         public int Id { get; set; }
         public double? Amount { get; set; } = null;
+        public string? Description { get; set; } = null;
     }
 }

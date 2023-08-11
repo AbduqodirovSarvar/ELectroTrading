@@ -23,7 +23,7 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
 
         public async Task<List<EmployeeViewModel>> Handle(GetAllEmployeeByFilterQuery request, CancellationToken cancellationToken)
         {
-            var employees = await _context.Employees.ToListAsync(cancellationToken);
+            var employees = await _context.Employees.Include(x => x.Attendances).Include(x => x.EmployeeDebts).Include(x => x.PaymentSalarys).ToListAsync(cancellationToken);
             if (request?.Month != null)
             {
                 employees = employees
@@ -32,7 +32,24 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
                             && x.DeletedDate.Value.Month >= request.Month.Value.Month)).ToList();
             }
 
-            return _mapper.Map<List<EmployeeViewModel>>(employees).OrderByDescending(x => x.Id).ToList();
+            var result = new List<EmployeeViewModel>();
+            foreach (var item in employees)
+            {
+                var viewModel = _mapper.Map<EmployeeViewModel>(item);
+                viewModel.Attendances = _mapper.Map<List<AttendanceViewModel>>(item.Attendances.Where(x => x.CreatedDate.Month == DateTime.UtcNow.Month).ToList());
+                if (item.PaymentSalarys == null || item.PaymentSalarys.Count < 1)
+                {
+                    viewModel.Debts = _mapper.Map<List<DebtViewModel>>(item.EmployeeDebts);
+                }
+                else
+                {
+                    viewModel.Salaries = _mapper.Map<List<SalaryViewModel>>(item.PaymentSalarys.Where(x => x.CreatedDate.Year == DateTime.UtcNow.Year).ToList());
+                    viewModel.Debts = _mapper.Map<List<DebtViewModel>>(item.EmployeeDebts.Where(x => x.CreatedDate > item.PaymentSalarys?.OrderBy(x => x.Id).Last().CreatedDate).ToList());
+                }
+                result.Add(viewModel);
+            }
+
+            return result.OrderByDescending(x => x.Id).ToList();
         }
     }
 }

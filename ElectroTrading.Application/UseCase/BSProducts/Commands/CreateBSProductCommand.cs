@@ -16,6 +16,7 @@ namespace ElectroTrading.Application.UseCase.BSProducts.Commands
         public string Description { get; set; } = string.Empty;
         public double Amount { get; set; }
         public decimal Price { get; set; }
+        public decimal Avans { get; set; }
         public CategoryProcess Category { get; set; }
     }
 }

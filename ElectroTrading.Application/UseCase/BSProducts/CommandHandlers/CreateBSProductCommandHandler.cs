@@ -41,9 +41,10 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
             viewModel.Product = _mapper.Map<ProductViewModel>(await _context.Products.FirstOrDefaultAsync(x => x.Id == bsProduct.ProductId, cancellationToken));
             viewModel.Price = request.Price;
             viewModel.Amount = request.Amount;
+            viewModel.Avans = request.Avans;
             viewModel.TotalPrice = Convert.ToDecimal(viewModel.Amount) * viewModel.Price;
 
-            if(request.Category == Domain.Enum.CategoryProcess.Bought)
+            if (request.Category == Domain.Enum.CategoryProcess.Bought)
             {
                 try
                 {

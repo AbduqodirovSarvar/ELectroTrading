@@ -14,5 +14,6 @@ namespace ElectroTrading.Application.UseCase.FinishedProducts.Commands
         [Required]
         public int ProductId { get; set; }
         public double? Amount { get; set; } = null;
+        public string? Description { get; set; } = null;
     }
 }

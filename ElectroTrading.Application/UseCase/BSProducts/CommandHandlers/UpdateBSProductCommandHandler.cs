@@ -34,6 +34,7 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
             bsProduct.Description = request?.Description ?? bsProduct.Description;
             bsProduct.Price = request?.Price ?? bsProduct.Price;
             bsProduct.Amount = request?.Amount ?? bsProduct.Amount;
+            bsProduct.Avans = request?.Avans ?? bsProduct.Avans;
 
             await _context.SaveChangesAsync(cancellationToken);
             var viewModel = _mapper.Map<BSProductViewModel>(bsProduct);

@@ -40,7 +40,6 @@ namespace ElectroTrading.Application.UseCase.BSProducts.QueryHandlers
             foreach (var product in products)
             {
                 var view = _mapper.Map<BSProductViewModel>(product);
-                view.Product = _mapper.Map<ProductViewModel>(product.Product);
                 viewModel.Add(view);
             }
 

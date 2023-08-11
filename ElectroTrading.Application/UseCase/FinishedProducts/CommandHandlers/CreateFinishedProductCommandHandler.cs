@@ -32,6 +32,7 @@ namespace ElectroTrading.Application.UseCase.FinishedProducts.CommandHandlers
             if (finishedProduct != null)
             {
                 finishedProduct.Amount = finishedProduct.Amount + request.Amount;
+                finishedProduct.Description = request.Description;
                 await _context.SaveChangesAsync(cancellationToken);
                 viewModel = _mapper.Map<FinishedProductViewModel>(finishedProduct);
                 viewModel.Product = _mapper.Map<ProductViewModel>(finishedProduct.Product);

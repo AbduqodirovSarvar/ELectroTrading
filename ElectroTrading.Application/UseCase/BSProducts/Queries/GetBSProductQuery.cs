@@ -11,7 +11,7 @@ namespace ElectroTrading.Application.UseCase.BSProducts.Queries
 {
     public class GetBSProductQuery : IQuery<BSProductViewModel>
     {
-        public GetBSProductQuery(int id ) { Id = Id; }
+        public GetBSProductQuery(int id ) { Id = id; }
         [Required]
         public int Id { get; set; }
     }

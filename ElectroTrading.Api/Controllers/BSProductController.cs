@@ -61,7 +61,7 @@ namespace ElectroTrading.Api.Controllers
 
         [HttpGet]
         [Route("{Id}")]
-        public async Task<IActionResult> GetBSProduct(int Id)
+        public async Task<IActionResult> GetBSProduct([FromRoute] int Id)
         {
             return Ok(await _mediator.Send(new GetBSProductQuery(Id)));
         }

@@ -13,6 +13,7 @@ namespace ElectroTrading.Application.Models.ViewModels
         public int ProductId { get; set; }
         public ProductViewModel? Product { get; set; }
         public double Amount { get; set; }
+        public string Description { get; set; } = string.Empty;
         public DateTime? CreatedDate { get; set; }
     }
 }

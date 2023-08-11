@@ -31,6 +31,7 @@ namespace ElectroTrading.Application.UseCase.Storages.CommandHandlers
             }
 
             st.Amount = request?.Amount ?? st.Amount;
+            st.Description = request?.Description ?? st.Description;
 
             await _context.SaveChangesAsync(cancellationToken);
 

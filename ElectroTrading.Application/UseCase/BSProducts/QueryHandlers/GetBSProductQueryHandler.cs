@@ -29,7 +29,6 @@ namespace ElectroTrading.Application.UseCase.BSProducts.QueryHandlers
                 throw new NotFoundException();
 
             var viewModel = _mapper.Map<BSProductViewModel>(product);
-            viewModel.Product = _mapper.Map<ProductViewModel>(product.Product);
 
             return viewModel;
         }

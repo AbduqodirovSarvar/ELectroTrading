@@ -31,6 +31,7 @@ namespace ElectroTrading.Application.UseCase.FinishedProducts.CommandHandlers
             }
 
             product.Amount = request?.Amount ?? product.Amount;
+            product.Description = request?.Description ?? product.Description;
 
             await _context.SaveChangesAsync(cancellationToken);
 

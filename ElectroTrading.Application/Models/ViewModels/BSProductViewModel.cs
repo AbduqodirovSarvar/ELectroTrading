@@ -18,6 +18,7 @@ namespace ElectroTrading.Application.Models.ViewModels
         public double Amount { get; set; }
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }
+        public decimal Avans { get; set; }
         public CategoryProcess Category { get; set; }
         public DateTime CreatedDate { get; set; }
     }
