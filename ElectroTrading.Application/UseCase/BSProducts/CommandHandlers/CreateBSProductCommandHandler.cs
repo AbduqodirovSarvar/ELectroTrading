@@ -52,9 +52,18 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
                     command.ProductId = bsProduct.ProductId;
                     command.Amount = bsProduct.Amount;
 
-                    await _mediator.Send(command);
+                    await _mediator.Send(command, cancellationToken);
                 }
                 catch { }
+            }
+            else
+            {
+                var fp = await _context.FinishedProducts.FirstOrDefaultAsync(x => x.ProductId == bsProduct.ProductId, cancellationToken);
+                if (fp != null && fp.Amount >= bsProduct.Amount)
+                {
+                    fp.Amount = fp.Amount - bsProduct.Amount;
+                }
+                await _context.SaveChangesAsync(cancellationToken);
             }
 
             await _sendMsg.SendMessage(await _sendMsg.MakeBSProductText(viewModel));

@@ -17,6 +17,7 @@ namespace ElectroTrading.Application.UseCase.Orders.Commands
         public string? Description { get; set; } = null;
         public decimal? Price { get; set; } = null;
         public double? Amount { get; set; } = null;
+        public decimal? Avans { get; set; } = null;
         public DateOnly? DeadLine { get; set; } = null;
         public bool? IsSubmitted { get; set; } = null;
 

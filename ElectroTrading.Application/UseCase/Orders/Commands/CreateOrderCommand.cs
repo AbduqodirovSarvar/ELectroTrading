@@ -20,6 +20,7 @@ namespace ElectroTrading.Application.UseCase.Orders.Commands
         public decimal Price { get; set; }
         [Required]
         public double Amount { get; set; }
+        public decimal Avans { get; set; }
         [Required]
         public DateOnly DeadLine { get; set; }
     }

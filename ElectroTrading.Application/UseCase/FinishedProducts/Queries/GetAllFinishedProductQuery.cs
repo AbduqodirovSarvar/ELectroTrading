@@ -10,6 +10,6 @@ namespace ElectroTrading.Application.UseCase.FinishedProducts.Queries
 {
     public class GetAllFinishedProductQuery : IQuery<List<FinishedProductViewModel>>
     {
-
+        public GetAllFinishedProductQuery() { }
     }
 }

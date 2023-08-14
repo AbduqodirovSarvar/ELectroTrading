@@ -38,7 +38,8 @@ namespace ElectroTrading.Application.Mapper
             CreateMap<CreateProductCommand, Product>().ReverseMap();
             CreateMap<Product, ProductViewModel>().ReverseMap();
             CreateMap<CreateFinishedProductCommand, FinishedProduct>().ReverseMap();
-            CreateMap<FinishedProduct, FinishedProductViewModel>().ReverseMap();
+            CreateMap<FinishedProduct, FinishedProductViewModel>()
+                .ForMember(dest => dest.Desciption, opt => opt.MapFrom(src => src.Description)).ReverseMap();
             CreateMap<Comp, ProductComposition>().ReverseMap();
             CreateMap<ProductComposition, ProductCompositionViewModel>().ReverseMap();
             CreateMap<CreateBSProductCommand, BoughtAndSoldProduct>().ReverseMap();

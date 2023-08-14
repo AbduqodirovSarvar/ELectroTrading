@@ -33,6 +33,7 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
             order.DeadLine = request?.DeadLine ?? order.DeadLine;
             order.Amount = request?.Amount ?? order.Amount;
             order.Price = request?.Price ?? order.Price;
+            order.Avans = request?.Avans ?? order.Avans;
 
             if(request?.IsSubmitted != null && request.IsSubmitted == true)
             {
