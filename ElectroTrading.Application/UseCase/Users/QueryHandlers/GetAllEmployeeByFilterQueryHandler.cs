@@ -46,8 +46,11 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
                     viewModel.Salaries = _mapper.Map<List<SalaryViewModel>>(item.PaymentSalarys.Where(x => x.CreatedDate.Year == DateTime.UtcNow.Year).ToList());
                     viewModel.Debts = _mapper.Map<List<DebtViewModel>>(item.EmployeeDebts.Where(x => x.CreatedDate > item.PaymentSalarys?.OrderBy(x => x.Id).Last().CreatedDate).ToList());
                 }
+                viewModel.TotalDebtSumms = viewModel.Debts.Sum(x => x.Summs);
                 result.Add(viewModel);
             }
+
+            
 
             return result.OrderByDescending(x => x.Id).ToList();
         }

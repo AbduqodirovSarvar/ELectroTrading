@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.UseCase.Salary.Queries
 {
-    public class GetAllDebtByFilterQuery : IQuery<List<DebtViewModel>>
+    public class GetAllDebtByFilterQuery : IQuery<DebtListViewModel>
     {
         public GetAllDebtByFilterQuery() { }
         public int? EmployeeId { get; set; } = null;

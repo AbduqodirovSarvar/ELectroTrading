@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
 {
-    public class GetAllDebtByFilterQueryHandler : IQueryHandler<GetAllDebtByFilterQuery, List<DebtViewModel>>
+    public class GetAllDebtByFilterQueryHandler : IQueryHandler<GetAllDebtByFilterQuery, DebtListViewModel>
     {
         private readonly IAppDbContext _context;
         private readonly IMapper _mapper;
@@ -21,7 +21,7 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
             _mapper = mapper;
         }
 
-        public async Task<List<DebtViewModel>> Handle(GetAllDebtByFilterQuery request, CancellationToken cancellationToken)
+        public async Task<DebtListViewModel> Handle(GetAllDebtByFilterQuery request, CancellationToken cancellationToken)
         {
             var debts = await _context.EmployeesDebts.Include(x => x.Employee).ToListAsync(cancellationToken);
             
@@ -32,13 +32,19 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
             if (request?.Date != null)
             {
                 debts = debts
-                    .Where(x => x.CreatedDate.Year == request.Date.Value.Year 
+                    .Where(x => x.CreatedDate.Year == request.Date.Value.Year
                         && x.CreatedDate.Month == request.Date.Value.Month
                             && x.CreatedDate.Day == request.Date.Value.Day).ToList();
             }
 
             List<DebtViewModel> result = _mapper.Map<List<DebtViewModel>>(debts);
-            return result.OrderByDescending(x => x.Id).ToList();
+
+            DebtListViewModel res = new DebtListViewModel();
+            res.EmployeeId = result.First().EmployeeId;
+            res.TotalDebtSumms = result.Sum(x => x.Summs);
+            res.Debts = result.OrderByDescending(x => x.Id).ToList();
+
+            return res;
         }
     }
 }

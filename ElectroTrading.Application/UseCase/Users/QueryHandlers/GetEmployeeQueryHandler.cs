@@ -40,6 +40,8 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
                 viewModel.Debts = _mapper.Map<List<DebtViewModel>>(employee.EmployeeDebts.Where(x => x.CreatedDate > employee.PaymentSalarys?.OrderBy(x => x.Id).Last().CreatedDate).ToList());
             }
 
+            viewModel.TotalDebtSumms = viewModel.Debts.Sum(x => x.Summs);
+
             return viewModel;
         }
     }
