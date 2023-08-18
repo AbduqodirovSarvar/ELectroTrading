@@ -29,7 +29,9 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
             if (product == null)
+            {
                 throw new NotFoundException();
+            }
 
             Order order = _mapper.Map<Order>(request);
             order.ProductId = product.Id;

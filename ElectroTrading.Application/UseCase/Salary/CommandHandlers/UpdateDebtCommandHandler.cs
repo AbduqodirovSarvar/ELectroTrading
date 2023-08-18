@@ -26,7 +26,9 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
         {
             var debt = await _context.EmployeesDebts.Include(x => x.Employee).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (debt == null)
+            {
                 throw new NotFoundException();
+            }
 
             debt.Summs = request?.Summs ?? debt.Summs;
             debt.Description = request?.Description ?? debt.Description;

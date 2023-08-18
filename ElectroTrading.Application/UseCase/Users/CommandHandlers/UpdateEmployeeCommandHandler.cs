@@ -25,7 +25,9 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
         {
             var employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (employee == null)
+            {
                 throw new NotFoundException();
+            }
 
             employee.Phone = request?.Phone ?? employee.Phone;
             employee.Name = request?.Name ?? employee.Name;

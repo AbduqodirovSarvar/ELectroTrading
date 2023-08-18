@@ -26,7 +26,9 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Name == request.Name, cancellationToken);
             if (product != null)
+            {
                 throw new AlreadyExistsException();
+            }
 
             Product createModel = _mapper.Map<Product>(request);
             createModel.CreatedDate= DateTime.UtcNow;

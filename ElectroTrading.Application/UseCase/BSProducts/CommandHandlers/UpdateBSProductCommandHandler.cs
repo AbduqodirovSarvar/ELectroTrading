@@ -29,7 +29,9 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
         {
             var bsProduct = await _context.BoughtAndSoldsProducts.Include(x => x.Product).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (bsProduct == null)
+            {
                 throw new NotFoundException();
+            }
 
             bsProduct.Description = request?.Description ?? bsProduct.Description;
             bsProduct.Price = request?.Price ?? bsProduct.Price;

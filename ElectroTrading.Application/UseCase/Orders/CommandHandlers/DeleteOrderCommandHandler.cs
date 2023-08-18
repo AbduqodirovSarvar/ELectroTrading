@@ -21,7 +21,9 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
         {
             var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
             if (order == null)
+            {
                 throw new NotFoundException();
+            }
 
             _context.Orders.Remove(order);
             return (await _context.SaveChangesAsync(cancellationToken)) > 0;

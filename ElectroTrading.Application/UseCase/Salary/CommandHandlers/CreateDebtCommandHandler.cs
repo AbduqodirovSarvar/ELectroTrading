@@ -31,7 +31,9 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
         {
             var employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == request.EmployeeId, cancellationToken);
             if (employee == null)
+            {
                 throw new NotFoundException();
+            }
 
             EmployeeDebt createModel = _mapper.Map<EmployeeDebt>(request);
             createModel.EmployeeId = request.EmployeeId;

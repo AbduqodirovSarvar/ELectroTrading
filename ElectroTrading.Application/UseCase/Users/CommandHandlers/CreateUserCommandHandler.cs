@@ -29,7 +29,9 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Phone == request.Phone, cancellationToken);
             if (user != null)
+            {
                 throw new AlreadyExistsException();
+            }
 
             User createUser = _mapper.Map<User>(request);
             createUser.Password = _hashService.GetHash(request.Password);

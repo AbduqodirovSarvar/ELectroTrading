@@ -27,7 +27,9 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
         {
             var order = await _context.Orders.Include(x => x.Product).FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
             if (order == null)
+            {
                 throw new NotFoundException();
+            }
 
             order.Description = request?.Description ?? order.Description;
             order.DeadLine = request?.DeadLine ?? order.DeadLine;

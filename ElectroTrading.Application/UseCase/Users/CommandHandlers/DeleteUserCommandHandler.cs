@@ -21,7 +21,9 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (user == null)
+            {
                 throw new NotFoundException();
+            }
 
             _context.Users.Remove(user);
             return (await _context.SaveChangesAsync(cancellationToken)) > 0;

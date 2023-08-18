@@ -26,7 +26,9 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
         {
             var salary = await _context.PaymentSalaries.Include(x => x.Employee).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (salary == null)
+            {
                 throw new NotFoundException();
+            }
 
             salary.Summs = request?.Summs ?? salary.Summs;
 

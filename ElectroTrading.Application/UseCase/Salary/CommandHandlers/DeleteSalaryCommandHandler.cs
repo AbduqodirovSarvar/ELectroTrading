@@ -21,7 +21,9 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
         {
             var salary = await _context.PaymentSalaries.FirstOrDefaultAsync(x => x.Id == request.DebtId, cancellationToken);
             if (salary == null)
+            {
                 throw new NotFoundException();
+            }
 
             _context.PaymentSalaries.Remove(salary);
             return (await _context.SaveChangesAsync(cancellationToken)) > 0;

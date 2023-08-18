@@ -26,7 +26,9 @@ namespace ElectroTrading.Application.UseCase.Attendances.CommandHandlers
             {
                 var attend = await _context.Attendances.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
                 if (attend == null)
+                {
                     throw new NotFoundException();
+                }
 
                 _context.Attendances.Remove(attend);
             }

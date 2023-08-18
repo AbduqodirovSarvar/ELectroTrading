@@ -27,7 +27,9 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
         {
             var employee = await _context.Employees.FirstOrDefaultAsync(x => x.Phone == request.Phone, cancellationToken);
             if (employee != null)
+            {
                 throw new AlreadyExistsException();
+            }
 
             Employee createEmployee = _mapper.Map<Employee>(request);
             createEmployee.CreatedTime = DateTime.UtcNow;

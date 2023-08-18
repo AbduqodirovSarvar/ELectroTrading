@@ -22,7 +22,9 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
             if (product == null)
+            {
                 throw new NotFoundException();
+            }
 
             _context.Products.Remove(product);
             return (await _context.SaveChangesAsync(cancellationToken)) > 0;
