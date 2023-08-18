@@ -100,7 +100,7 @@ namespace ElectroTrading.Application.Services
 
             StringBuilder msg = new StringBuilder();
             msg.Append("<b>💸 Avans Berildi :</b>\r\n\r\n" + "<b>👨‍🔧 " + debtView.Employee.LastName.ToString() + " " + debtView.Employee.Name.ToString() + " : </b>" + debtView.Summs.ToString());
-            msg.Append("\r\n\\🧾 Tavsifi : " + debtView.Description.ToString() + "\r\n👨‍✈️ Kim berdi : " + user.Phone.ToString() + "\n");
+            msg.Append("\r\n🧾 Tavsifi : " + debtView.Description.ToString() + "\r\n👨‍✈️ Kim berdi : " + user.Phone.ToString() + "\n");
 
             return Task.FromResult(msg.ToString());
         }
