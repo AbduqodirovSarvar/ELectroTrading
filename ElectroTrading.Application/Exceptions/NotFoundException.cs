@@ -8,6 +8,10 @@ namespace ElectroTrading.Application.Exceptions
 {
     public class NotFoundException : Exception
     {
+        
         public NotFoundException() { }
+        public NotFoundException(string _message)
+            : base(_message) { }
+
     }
 }
