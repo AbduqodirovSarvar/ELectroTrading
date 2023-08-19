@@ -36,12 +36,15 @@ namespace ElectroTrading.Application.Mapper
             CreateMap<CreateSalaryPaymentCommand, PaymentSalary>().ReverseMap();
             CreateMap<PaymentSalary, SalaryViewModel>().ReverseMap();
             CreateMap<CreateProductCommand, Product>().ReverseMap();
-            CreateMap<Product, ProductViewModel>().ReverseMap();
+            CreateMap<Product, ProductViewModel>()
+                .ForMember(x => x.TotalCompPrice, y => y.MapFrom(z => z.Compositions.Sum(sum => Convert.ToDecimal(sum.Amount) * sum.Composition.Price)));
             CreateMap<CreateFinishedProductCommand, FinishedProduct>().ReverseMap();
             CreateMap<FinishedProduct, FinishedProductViewModel>()
                 .ForMember(dest => dest.Desciption, opt => opt.MapFrom(src => src.Description)).ReverseMap();
             CreateMap<Comp, ProductComposition>().ReverseMap();
-            CreateMap<ProductComposition, ProductCompositionViewModel>().ReverseMap();
+            CreateMap<ProductComposition, ProductCompositionViewModel>()
+                .ForMember(x => x.Price, y => y.MapFrom(z => z.Composition.Price))
+                    .ForMember(x => x.CompositionName, y => y.MapFrom(z => z.Composition.Name));
             CreateMap<CreateBSProductCommand, BoughtAndSoldProduct>().ReverseMap();
             CreateMap<AddProductStorageCommand, Storage>().ReverseMap();
             CreateMap<ProductPhoto, PhotoViewModel>().ReverseMap();

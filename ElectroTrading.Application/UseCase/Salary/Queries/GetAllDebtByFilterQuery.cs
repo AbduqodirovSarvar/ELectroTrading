@@ -13,6 +13,8 @@ namespace ElectroTrading.Application.UseCase.Salary.Queries
     {
         public GetAllDebtByFilterQuery() { }
         public int? EmployeeId { get; set; } = null;
-        public DateOnly? Date { get; set; } = null;
+        public int? Year { get; set; } = null;
+        public int? Month { get; set; } = null;
+        public int? Day { get; set; } = null;
     }
 }

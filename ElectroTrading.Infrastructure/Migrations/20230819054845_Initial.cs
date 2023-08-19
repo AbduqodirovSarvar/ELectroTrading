@@ -125,6 +125,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     Amount = table.Column<double>(type: "double precision", nullable: false),
+                    Avans = table.Column<decimal>(type: "numeric", nullable: false),
                     DeadLine = table.Column<DateOnly>(type: "date", nullable: false),
                     IsSubmitted = table.Column<bool>(type: "boolean", nullable: false),
                     SubmitDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -303,7 +304,7 @@ namespace ElectroTrading.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedDate", "Password", "Phone", "Role" },
-                values: new object[] { 1, new DateTime(2023, 8, 11, 13, 2, 31, 84, DateTimeKind.Utc).AddTicks(1353), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
+                values: new object[] { 1, new DateTime(2023, 8, 19, 5, 48, 45, 318, DateTimeKind.Utc).AddTicks(2784), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",

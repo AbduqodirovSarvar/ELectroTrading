@@ -29,12 +29,23 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
             {
                 debts = debts.Where(x => x.EmployeeId == request.EmployeeId).ToList();
             }
-            if (request?.Date != null)
+
+            if (request?.Year != null)
             {
                 debts = debts
-                    .Where(x => x.CreatedDate.Year == request.Date.Value.Year
-                        && x.CreatedDate.Month == request.Date.Value.Month
-                            && x.CreatedDate.Day == request.Date.Value.Day).ToList();
+                    .Where(x => x.CreatedDate.Year == request.Year).ToList();
+            }
+
+            if (request?.Month != null)
+            {
+                debts = debts
+                    .Where(x => x.CreatedDate.Month == request.Month).ToList();
+            }
+
+            if (request?.Day != null)
+            {
+                debts = debts
+                    .Where(x => x.CreatedDate.Day == request.Day).ToList();
             }
 
             List<DebtViewModel> result = _mapper.Map<List<DebtViewModel>>(debts);

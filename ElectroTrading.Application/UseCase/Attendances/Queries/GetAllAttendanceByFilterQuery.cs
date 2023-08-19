@@ -10,6 +10,9 @@ namespace ElectroTrading.Application.UseCase.Attendances.Queries
 {
     public class GetAllAttendanceByFilterQuery : IQuery<List<AttendanceViewModel>>
     {
-        public DateOnly? Day { get; set; } = null;
+        public int? EmployeeId { get; set; } = null;
+        public int? Year { get; set; } = null;
+        public int? Month { get; set; } = null;
+        public int? Day { get; set; } = null;
     }
 }

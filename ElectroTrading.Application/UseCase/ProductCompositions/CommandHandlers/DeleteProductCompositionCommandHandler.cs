@@ -31,9 +31,11 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
             {
                 foreach (var id in request.CompositionIds)
                 {
-                    var comp = product.Compositions.FirstOrDefault(x => x.Id == id);
+                    var comp = await _context.ProductCompositions.FirstOrDefaultAsync(x => x.ProductId == product.Id && x.CompositionId == id, cancellationToken);
                     if (comp == null)
+                    {
                         continue;
+                    }
                     product.Compositions.Remove(comp);
                 }
             }

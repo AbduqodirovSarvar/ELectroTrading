@@ -15,6 +15,10 @@ namespace ElectroTrading.Application.EntityTypeConfigurations
         {
             builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.ProductId).IsUnique();
+            builder.HasOne(pc => pc.Composition)
+                    .WithMany()
+                        .HasForeignKey(pc => pc.CompositionId)
+                            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -26,14 +26,13 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
 
         public async Task<ProductViewModel> Handle(CreateProductCompositionCommand request, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.Include(x => x.Compositions).FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
+            var product = await _context.Products.Include(x => x.Compositions).ThenInclude(x => x.Composition).FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
             if (product == null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException("Product Not found");
             }
 
             ProductViewModel viewModel = _mapper.Map<ProductViewModel>(product);
-            viewModel.Compositions = _mapper.Map<List<ProductCompositionViewModel>>(product.Compositions);
 
             foreach (var comp in request.CompositionIds)
             {
@@ -44,16 +43,20 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
                     createModel.ProductId = request.ProductId;
 
                     await _context.ProductCompositions.AddAsync(createModel, cancellationToken);
-
-                    viewModel.Compositions.Add(_mapper.Map<ProductCompositionViewModel>(createModel));
+/*
+                    viewModel.Compositions.Add(_mapper.Map<ProductCompositionViewModel>(createModel));*/
                 }
                 else
                 {
                     composition.Amount = composition.Amount + comp.Amount;
+
                 }
             }
 
             await _context.SaveChangesAsync(cancellationToken);
+
+            viewModel.Compositions = _mapper.Map<List<ProductCompositionViewModel>>(product.Compositions);
+
             return viewModel;
         }
     }

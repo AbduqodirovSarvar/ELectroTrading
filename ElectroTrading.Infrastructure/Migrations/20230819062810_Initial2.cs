@@ -6,39 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ElectroTrading.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Second : Migration
+    public partial class Initial2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<decimal>(
-                name: "Avans",
-                table: "Orders",
-                type: "numeric",
-                nullable: false,
-                defaultValue: 0m);
-
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedDate",
-                value: new DateTime(2023, 8, 14, 12, 43, 52, 102, DateTimeKind.Utc).AddTicks(4290));
+                value: new DateTime(2023, 8, 19, 6, 28, 10, 447, DateTimeKind.Utc).AddTicks(2414));
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Avans",
-                table: "Orders");
-
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "Id",
                 keyValue: 1,
                 column: "CreatedDate",
-                value: new DateTime(2023, 8, 11, 13, 2, 31, 84, DateTimeKind.Utc).AddTicks(1353));
+                value: new DateTime(2023, 8, 19, 5, 48, 45, 318, DateTimeKind.Utc).AddTicks(2784));
         }
     }
 }

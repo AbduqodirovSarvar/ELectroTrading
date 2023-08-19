@@ -11,6 +11,7 @@ namespace ElectroTrading.Application.UseCase.Users.Queries
     public class GetAllEmployeeByFilterQuery : IQuery<List<EmployeeViewModel>>
     {
         public GetAllEmployeeByFilterQuery() { }
-        public DateOnly? Month { get; set; } = null;
+        public int? Year { get; set; } = null;
+        public int? Month { get; set; } = null;
     }
 }

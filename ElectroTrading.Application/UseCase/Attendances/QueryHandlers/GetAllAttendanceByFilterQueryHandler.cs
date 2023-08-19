@@ -26,9 +26,24 @@ namespace ElectroTrading.Application.UseCase.Attendances.QueryHandlers
         {
             var attends = await _context.Attendances.ToListAsync(cancellationToken);
 
+            if (request?.EmployeeId != null)
+            {
+                attends = attends.Where(x => x.EmployeeId == request.EmployeeId).ToList();
+            }
+
+            if (request?.Year != null)
+            {
+                attends = attends.Where(x => x.Day.Year == request.Year).ToList();
+            }
+
+            if (request?.Month != null)
+            {
+                attends = attends.Where(x => x.Day.Month.Equals(request.Month)).ToList();
+            }
+
             if (request?.Day != null)
             {
-                attends = attends.Where(x => x.Day.Equals(request.Day)).ToList();
+                attends = attends.Where(x => x.Day.Day.Equals(request.Day)).ToList();
             }
 
             List<AttendanceViewModel> attendViews = _mapper.Map<List<AttendanceViewModel>>(attends);

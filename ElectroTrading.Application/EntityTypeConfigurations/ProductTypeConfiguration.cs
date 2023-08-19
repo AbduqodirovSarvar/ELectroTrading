@@ -15,10 +15,10 @@ namespace ElectroTrading.Application.EntityTypeConfigurations
         {
             builder.HasIndex(x => x.Name).IsUnique();
             builder.HasMany(bs => bs.BoughtAndSoldProducts).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
-            builder.HasMany(fp => fp.FinishedProducts).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
+            builder.HasMany(fp => fp.FinishedProducts).WithOne(p => p.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
             builder.HasMany(o => o.Orders).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
-            builder.HasMany(Pc => Pc.Compositions).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
-            builder.HasMany(s => s.Storages).WithOne(p => p.Product).HasForeignKey(x => x.ProductId);
+            builder.HasMany(Pc => Pc.Compositions).WithOne(p => p.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany(s => s.Storages).WithOne(p => p.Product).HasForeignKey(x => x.ProductId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

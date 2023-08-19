@@ -24,12 +24,19 @@ namespace ElectroTrading.Application.UseCase.Users.QueryHandlers
         public async Task<List<EmployeeViewModel>> Handle(GetAllEmployeeByFilterQuery request, CancellationToken cancellationToken)
         {
             var employees = await _context.Employees.Include(x => x.Attendances).Include(x => x.EmployeeDebts).Include(x => x.PaymentSalarys).ToListAsync(cancellationToken);
+
+            if (request?.Year != null)
+            {
+                employees = employees
+                    .Where(x => (x.IsDeleted == false) || (x.DeletedDate != null
+                        && x.DeletedDate.Value.Year >= request.Year)).ToList();
+            }
+
             if (request?.Month != null)
             {
                 employees = employees
                     .Where(x =>(x.IsDeleted == false) || (x.DeletedDate != null 
-                        && x.DeletedDate.Value.Year >= request.Month.Value.Year 
-                            && x.DeletedDate.Value.Month >= request.Month.Value.Month)).ToList();
+                        && x.DeletedDate.Value.Month >= request.Month)).ToList();
             }
 
             var result = new List<EmployeeViewModel>();
