@@ -27,7 +27,7 @@ namespace ElectroTrading.Application.UseCase.Photos.CommandHandlers
 
         public async Task<PhotoViewModel> Handle(CreateProductPhotoCommand request, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var product = await _context.Products.Include(x => x.Compositions).ThenInclude(x => x.Composition).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (product == null)
             {
                 throw new NotFoundException();
@@ -35,11 +35,26 @@ namespace ElectroTrading.Application.UseCase.Photos.CommandHandlers
 
             ProductPhoto photo = new ProductPhoto();
             photo.ProductId = product.Id;
+            photo.Product = product;
             photo.FileName = request.FileName;
             photo.FilePath = request.FilePath;
 
             await _context.ProductPhotos.AddAsync(photo, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             var viewModel = _mapper.Map<PhotoViewModel>(photo);
             viewModel.Product = _mapper.Map<ProductViewModel>(product);

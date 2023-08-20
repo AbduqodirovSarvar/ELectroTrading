@@ -33,7 +33,21 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
             debt.Summs = request?.Summs ?? debt.Summs;
             debt.Description = request?.Description ?? debt.Description;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             DebtViewModel viewModel = _mapper.Map<DebtViewModel>(debt);
             viewModel.Employee = _mapper.Map<EmployeeViewModel>(debt.Employee);

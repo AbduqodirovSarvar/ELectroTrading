@@ -30,21 +30,6 @@ namespace ElectroTrading.Application.UseCase.Products.QueryHandlers
                 products = products.Where(x => x.Category == request.Category).ToList();
             }
 
-            if(request?.isFinished != null)
-            {
-                if(request.isFinished == true)
-                {
-                    products = products.Where(x => _context.FinishedProducts.Any(fp => fp.ProductId == x.Id)).ToList();
-                }
-                else
-                {
-                    products = products.Where(x => _context.FinishedProducts.Any(fp => fp.ProductId != x.Id)).ToList();
-                    products = (from x in products
-                                join fp in _context.FinishedProducts on x.Id  !equals fp.Id
-                                select x).ToList();
-                }
-            }
-
             if(request?.isOnSale != null)
             {
                 products = products.Where(x => x.IsOnSale == request.isOnSale).ToList();

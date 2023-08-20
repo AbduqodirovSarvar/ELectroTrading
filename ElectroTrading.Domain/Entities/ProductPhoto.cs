@@ -13,6 +13,6 @@ namespace ElectroTrading.Domain.Entities
         public Product? Product { get; set; }
         public string FileName { get; set; } = string.Empty;
         public string FilePath { get; set; } = string.Empty;
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
     }
 }

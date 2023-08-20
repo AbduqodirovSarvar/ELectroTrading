@@ -36,8 +36,9 @@ namespace ElectroTrading.Application.UseCase.Orders.QueryHandlers
                 var view = _mapper.Map<OrderViewModel>(order);
                 var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == view.ProductId, cancellationToken);
                 if (product == null)
+                {
                     throw new NotFoundException();
-
+                }
                 view.Product = _mapper.Map<ProductViewModel>(product);
                 orderViews.Add(view);
             }

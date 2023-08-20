@@ -433,7 +433,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 8, 19, 6, 28, 10, 447, DateTimeKind.Utc).AddTicks(2414),
+                            CreatedDate = new DateTime(2023, 8, 20, 20, 0, 5, 272, DateTimeKind.Utc).AddTicks(106),
                             Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
                             Phone = "ElectroTradingAdmin",
                             Role = 2

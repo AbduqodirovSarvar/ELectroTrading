@@ -32,10 +32,24 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
         public async Task<BSProductViewModel> Handle(CreateBSProductCommand request, CancellationToken cancellationToken)
         {
             var bsProduct = _mapper.Map<BoughtAndSoldProduct>(request);
-            bsProduct.CreatedDate = DateTime.UtcNow;
+            bsProduct.CreatedDate = DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
 
             await _context.BoughtAndSoldsProducts.AddAsync(bsProduct, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             var viewModel = _mapper.Map<BSProductViewModel>(bsProduct);
             viewModel.Product = _mapper.Map<ProductViewModel>(await _context.Products.FirstOrDefaultAsync(x => x.Id == bsProduct.ProductId, cancellationToken));
@@ -63,7 +77,21 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
                 {
                     fp.Amount = fp.Amount - bsProduct.Amount;
                 }
-                await _context.SaveChangesAsync(cancellationToken);
+                try
+                {
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null)
+                    {
+                        Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Exception: " + ex.Message);
+                    }
+                }
             }
 
             await _sendMsg.SendMessage(await _sendMsg.MakeBSProductText(viewModel));

@@ -11,6 +11,7 @@ namespace ElectroTrading.Application.UseCase.OnSale.Commands
 {
     public class CreateOnSaleCommand : ICommand<ProductViewModel>
     {
+        public CreateOnSaleCommand() { } 
         public CreateOnSaleCommand(int id) { ProductId = id; }
         [Required]
         public int ProductId { get; set; }

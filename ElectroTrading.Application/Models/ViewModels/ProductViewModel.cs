@@ -16,6 +16,7 @@ namespace ElectroTrading.Application.Models.ViewModels
         public decimal Price { get; set; }
         public CategoryUnity Category { get; set; }
         public decimal TotalCompPrice { get; set; }
+        public bool IsOnSale { get; set; }
         public List<ProductCompositionViewModel> Compositions { get; set; } = new List<ProductCompositionViewModel>();
         public DateTime CreatedDate { get; set; }
     }

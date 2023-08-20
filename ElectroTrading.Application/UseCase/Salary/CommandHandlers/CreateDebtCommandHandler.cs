@@ -40,7 +40,21 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
             createModel.ByWhomId = _currentUserService.UserId;
 
             await _context.EmployeesDebts.AddAsync(createModel, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             DebtViewModel viewModel = _mapper.Map<DebtViewModel>(createModel);
             viewModel.Employee = _mapper.Map<EmployeeViewModel>(employee);

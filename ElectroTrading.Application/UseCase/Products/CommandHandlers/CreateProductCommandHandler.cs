@@ -31,10 +31,24 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
             }
 
             Product createModel = _mapper.Map<Product>(request);
-            createModel.CreatedDate= DateTime.UtcNow;
+            createModel.CreatedDate= DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
 
             await _context.Products.AddAsync(createModel, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             return _mapper.Map<ProductViewModel>(createModel);
         }

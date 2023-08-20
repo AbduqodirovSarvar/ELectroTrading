@@ -26,7 +26,22 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
             }
 
             _context.Users.Remove(user);
-            return (await _context.SaveChangesAsync(cancellationToken)) > 0;
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
+            return true;
         }
     }
 }

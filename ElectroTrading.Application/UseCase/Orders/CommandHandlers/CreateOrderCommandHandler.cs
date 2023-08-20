@@ -37,7 +37,21 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
             order.ProductId = product.Id;
 
             await _context.Orders.AddAsync(order, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             OrderViewModel view = _mapper.Map<OrderViewModel>(order);
             view.Product = _mapper.Map<ProductViewModel>(product);

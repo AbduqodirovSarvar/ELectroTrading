@@ -43,7 +43,21 @@ namespace ElectroTrading.Application.UseCase.Orders.CommandHandlers
                 order.SubmitDate = DateTime.UtcNow;
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             var view = _mapper.Map<OrderViewModel>(order);
             view.Product = _mapper.Map<ProductViewModel>(order.Product);

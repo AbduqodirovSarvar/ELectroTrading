@@ -33,7 +33,21 @@ namespace ElectroTrading.Application.UseCase.FinishedProducts.CommandHandlers
             product.Amount = request?.Amount ?? product.Amount;
             product.Description = request?.Description ?? product.Description;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             return _mapper.Map<FinishedProductViewModel>(product);
 

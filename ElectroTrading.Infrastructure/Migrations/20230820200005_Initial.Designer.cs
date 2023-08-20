@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ElectroTrading.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230819054845_Initial")]
+    [Migration("20230820200005_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -436,7 +436,7 @@ namespace ElectroTrading.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 8, 19, 5, 48, 45, 318, DateTimeKind.Utc).AddTicks(2784),
+                            CreatedDate = new DateTime(2023, 8, 20, 20, 0, 5, 272, DateTimeKind.Utc).AddTicks(106),
                             Password = "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=",
                             Phone = "ElectroTradingAdmin",
                             Role = 2

@@ -35,10 +35,25 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
 
             User createUser = _mapper.Map<User>(request);
             createUser.Password = _hashService.GetHash(request.Password);
-            createUser.CreatedDate= DateTime.UtcNow;
+            createUser.CreatedDate= DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
 
             await _context.Users.AddAsync(createUser, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
+            
 
             return _mapper.Map<UserViewModel>(createUser);
         }

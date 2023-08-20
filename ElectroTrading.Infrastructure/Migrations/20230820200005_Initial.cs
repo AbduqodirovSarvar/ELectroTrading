@@ -304,7 +304,7 @@ namespace ElectroTrading.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedDate", "Password", "Phone", "Role" },
-                values: new object[] { 1, new DateTime(2023, 8, 19, 5, 48, 45, 318, DateTimeKind.Utc).AddTicks(2784), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
+                values: new object[] { 1, new DateTime(2023, 8, 20, 20, 0, 5, 272, DateTimeKind.Utc).AddTicks(106), "xroG8fDLxyHzvbRZpHteff/y2neai77DjHBAXNHjqoI=", "ElectroTradingAdmin", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_EmployeeId",

@@ -37,7 +37,21 @@ namespace ElectroTrading.Application.UseCase.Photos.CommandHandlers
             photo.FileName = request.FileName;
             photo.FilePath = request.FilePath;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             return _mapper.Map<PhotoViewModel>(photo);
         }

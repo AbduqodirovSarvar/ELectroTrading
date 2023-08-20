@@ -32,10 +32,24 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
             }
 
             Employee createEmployee = _mapper.Map<Employee>(request);
-            createEmployee.CreatedTime = DateTime.UtcNow;
+            createEmployee.CreatedTime = DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
 
             await _context.Employees.AddAsync(createEmployee, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             return _mapper.Map<EmployeeViewModel>(createEmployee);
         }

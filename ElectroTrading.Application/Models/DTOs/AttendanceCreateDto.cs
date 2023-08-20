@@ -16,6 +16,5 @@ namespace ElectroTrading.Application.Models.DTOs
         public bool IsMainWork { get; set; } = false;
         public double LateHours { get; set; }
         public double ExtraWorkHours { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
     }
 }

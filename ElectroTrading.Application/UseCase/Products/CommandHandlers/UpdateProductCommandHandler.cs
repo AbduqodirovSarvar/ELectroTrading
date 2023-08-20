@@ -48,7 +48,21 @@ namespace ElectroTrading.Application.UseCase.Products.CommandHandlers
                 }
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             var viewModel = _mapper.Map<ProductViewModel>(product);
             viewModel.Compositions = _mapper.Map<List<ProductCompositionViewModel>>(product.Compositions);

@@ -37,11 +37,11 @@ namespace ElectroTrading.Api.Controllers
 
         [Authorize(Policy = "AdminActions")]
         [HttpPost("Sale")]
-        public async Task<IActionResult> CreateSaleProduct([FromBody] CreateOnSaleCommand command)
+        public async Task<IActionResult> CreateSaleProduct([FromForm] int ProductId)
         {
             try
             {
-                return Ok(await _mediator.Send(command));
+                return Ok(await _mediator.Send(new CreateOnSaleCommand(ProductId)));
             }
             catch (Exception ex)
             {

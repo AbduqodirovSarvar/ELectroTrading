@@ -10,23 +10,38 @@ using System.Threading.Tasks;
 
 namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
 {
-    public class DeleteSalaryCommandHandler : ICommandHandler<DeleteDebtCommand, bool>
+    public class DeleteSalaryCommandHandler : ICommandHandler<DeleteSalaryCommand, bool>
     {
         private readonly IAppDbContext _context;
         public DeleteSalaryCommandHandler(IAppDbContext context)
         {
             _context = context;
         }
-        public async Task<bool> Handle(DeleteDebtCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteSalaryCommand request, CancellationToken cancellationToken)
         {
-            var salary = await _context.PaymentSalaries.FirstOrDefaultAsync(x => x.Id == request.DebtId, cancellationToken);
+            var salary = await _context.PaymentSalaries.FirstOrDefaultAsync(x => x.Id == request.SalaryId, cancellationToken);
             if (salary == null)
             {
                 throw new NotFoundException();
             }
 
             _context.PaymentSalaries.Remove(salary);
-            return (await _context.SaveChangesAsync(cancellationToken)) > 0;
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
+            return true;
         }
     }
 }

@@ -52,7 +52,21 @@ namespace ElectroTrading.Application.UseCase.Attendances.CommandHandlers
                 view.Position = employee.Position;
                 result.Add(view);
             }
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
             return result;
 
         }

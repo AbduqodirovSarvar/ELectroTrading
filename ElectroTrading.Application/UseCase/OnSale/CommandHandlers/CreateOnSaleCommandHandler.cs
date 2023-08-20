@@ -24,7 +24,7 @@ namespace ElectroTrading.Application.UseCase.OnSale.CommandHandlers
 
         public async Task<ProductViewModel> Handle(CreateOnSaleCommand request, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.Include(x => x.Compositions).FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
+            var product = await _context.Products.Include(x => x.Compositions).ThenInclude(x => x.Composition).FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken);
             if (product == null)
             {
                 throw new NotFoundException();
@@ -32,7 +32,21 @@ namespace ElectroTrading.Application.UseCase.OnSale.CommandHandlers
 
             product.IsOnSale = true;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             var viewModel = _mapper.Map<ProductViewModel>(product);
             viewModel.Compositions = _mapper.Map<List<ProductCompositionViewModel>>(product.Compositions).OrderByDescending(x => x.CompositionId).ToList();

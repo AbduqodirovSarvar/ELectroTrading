@@ -33,7 +33,21 @@ namespace ElectroTrading.Application.UseCase.Storages.CommandHandlers
             st.Amount = request?.Amount ?? st.Amount;
             st.Description = request?.Description ?? st.Description;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             var viewModel = _mapper.Map<StorageViewModel>(st);
             viewModel.Product = _mapper.Map<ProductViewModel>(st.Product);

@@ -15,7 +15,7 @@ namespace ElectroTrading.Domain.Entities
         public decimal Price { get; set; }
         public CategoryUnity Category { get; set; }
         public bool IsOnSale { get; set; } = false;
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
         public ProductPhoto? Photo { get; set; }
         public ICollection<ProductComposition> Compositions { get; set; } = new HashSet<ProductComposition>();
         public ICollection<Order> Orders { get; set; } = new HashSet<Order>();

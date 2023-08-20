@@ -29,7 +29,7 @@ namespace ElectroTrading.Application.UseCase.Storages.CommandHandlers
             if (product == null)
             {
                 var st = _mapper.Map<Storage>(request);
-                st.CreatedDate = DateTime.UtcNow;
+                st.CreatedDate = DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
 
                 viewModel = _mapper.Map<StorageViewModel>(st);
                 viewModel.Product = _mapper.Map<ProductViewModel>(await _context.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, cancellationToken));
@@ -43,7 +43,21 @@ namespace ElectroTrading.Application.UseCase.Storages.CommandHandlers
                 viewModel.Product = _mapper.Map<ProductViewModel>(product.Product);
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             return viewModel;
         }

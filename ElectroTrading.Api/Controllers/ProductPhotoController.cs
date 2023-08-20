@@ -40,7 +40,7 @@ namespace ElectroTrading.Api.Controllers
                     await command.Image.CopyToAsync(fileStream);
                 }
 
-                return Ok(await _mediator.Send(new CreateProductPhotoCommand(1, fileName, filePath)));
+                return Ok(await _mediator.Send(new CreateProductPhotoCommand(command.ProductId, fileName, filePath)));
             }
             catch (Exception ex)
             {

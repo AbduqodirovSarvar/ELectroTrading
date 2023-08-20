@@ -39,8 +39,22 @@ namespace ElectroTrading.Application.UseCase.Users.CommandHandlers
                 user.Password = _hashService.GetHash(request.Password);
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
-            
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
+
             return _mapper.Map<UserViewModel>(user);
         }
     }

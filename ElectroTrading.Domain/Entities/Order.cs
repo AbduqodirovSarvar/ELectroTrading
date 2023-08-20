@@ -18,6 +18,6 @@ namespace ElectroTrading.Domain.Entities
         public DateOnly DeadLine { get; set; }
         public bool IsSubmitted { get; set; } = false;
         public DateTime? SubmitDate { get; set; } = null;
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedDate { get; set; } = DateTime.SpecifyKind(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(5)).DateTime, DateTimeKind.Utc).ToUniversalTime();
     }
 }

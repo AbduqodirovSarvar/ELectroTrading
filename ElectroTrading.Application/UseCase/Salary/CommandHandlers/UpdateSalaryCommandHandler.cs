@@ -32,7 +32,21 @@ namespace ElectroTrading.Application.UseCase.Salary.CommandHandlers
 
             salary.Summs = request?.Summs ?? salary.Summs;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             SalaryViewModel viewModel = _mapper.Map<SalaryViewModel>(salary);
             viewModel.Employee = _mapper.Map<EmployeeViewModel>(salary.Employee);

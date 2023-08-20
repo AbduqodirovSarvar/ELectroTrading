@@ -43,8 +43,6 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
                     createModel.ProductId = request.ProductId;
 
                     await _context.ProductCompositions.AddAsync(createModel, cancellationToken);
-/*
-                    viewModel.Compositions.Add(_mapper.Map<ProductCompositionViewModel>(createModel));*/
                 }
                 else
                 {
@@ -53,7 +51,21 @@ namespace ElectroTrading.Application.UseCase.ProductCompositions.CommandHandlers
                 }
             }
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
 
             viewModel.Compositions = _mapper.Map<List<ProductCompositionViewModel>>(product.Compositions);
 

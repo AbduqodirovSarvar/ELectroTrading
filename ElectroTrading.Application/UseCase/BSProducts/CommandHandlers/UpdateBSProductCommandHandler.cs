@@ -38,7 +38,21 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
             bsProduct.Amount = request?.Amount ?? bsProduct.Amount;
             bsProduct.Avans = request?.Avans ?? bsProduct.Avans;
 
-            await _context.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine("Inner Exception: " + ex.InnerException.Message);
+                }
+                else
+                {
+                    Console.WriteLine("Exception: " + ex.Message);
+                }
+            }
             var viewModel = _mapper.Map<BSProductViewModel>(bsProduct);
             viewModel.Product = _mapper.Map<ProductViewModel>(bsProduct.Product);
 

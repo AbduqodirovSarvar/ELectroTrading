@@ -26,10 +26,11 @@ namespace ElectroTrading.Application.UseCase.Orders.QueryHandlers
         {
             var order = await _context.Orders.Include(x => x.Product).FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
             if (order == null)
+            {
                 throw new NotFoundException();
-
+            }
             var view = _mapper.Map<OrderViewModel>(order);
-            view.Product = _mapper.Map<ProductViewModel>(order);
+            view.Product = _mapper.Map<ProductViewModel>(order.Product);
 
             return view;
         }
