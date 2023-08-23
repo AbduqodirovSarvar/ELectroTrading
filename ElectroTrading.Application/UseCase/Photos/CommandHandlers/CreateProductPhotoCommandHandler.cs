@@ -33,13 +33,23 @@ namespace ElectroTrading.Application.UseCase.Photos.CommandHandlers
                 throw new NotFoundException();
             }
 
-            ProductPhoto photo = new ProductPhoto();
-            photo.ProductId = product.Id;
-            photo.Product = product;
-            photo.FileName = request.FileName;
-            photo.FilePath = request.FilePath;
+            var photo = await _context.ProductPhotos.FirstOrDefaultAsync(x => x.ProductId == product.Id, cancellationToken);
+            if(photo == null)
+            {
+                photo = new ProductPhoto();
+                photo.ProductId = product.Id;
+                photo.Product = product;
+                photo.FileName = request.FileName;
+                photo.FilePath = request.FilePath;
 
-            await _context.ProductPhotos.AddAsync(photo, cancellationToken);
+                await _context.ProductPhotos.AddAsync(photo, cancellationToken);
+            }
+            else
+            {
+                photo.FileName = request.FileName;
+                photo.FilePath = request.FilePath;
+            }
+            
             try
             {
                 await _context.SaveChangesAsync(cancellationToken);

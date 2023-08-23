@@ -49,7 +49,7 @@ namespace ElectroTrading.Application.Services
             var user = _context.Users.FirstOrDefault(x => x.Id == attendances.First().ByWhomId);
             if (user == null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException("User not found");
             }
             msg.Append("⌚️ Kiritilgan vaqt : " + attendances.First().CreatedDate.ToString() + "\n" + "👨‍✈️ Kim belgiladi : " + user.Phone.ToString());
 
@@ -96,7 +96,9 @@ namespace ElectroTrading.Application.Services
         {
             var user = _context.Users.FirstOrDefault(x => x.Id == debtView.ByWhomId);
             if (user == null || debtView.Employee == null)
-                throw new NotFoundException();
+            {
+                throw new NotFoundException("User not found or Employee is null");
+            }
 
             StringBuilder msg = new StringBuilder();
             msg.Append("<b>💸 Avans Berildi :</b>\r\n\r\n" + "<b>👨‍🔧 " + debtView.Employee.LastName.ToString() + " " + debtView.Employee.Name.ToString() + " : </b>" + debtView.Summs.ToString());
@@ -137,10 +139,10 @@ namespace ElectroTrading.Application.Services
             StringBuilder msg = new StringBuilder();
 
             msg.Append("<b>💸 Oylik berildi :</b> \n" + "<b>👨‍🔧 " + salaryView.Employee.LastName.ToString() + " " + salaryView.Employee.Name.ToString() + " :</b> " + salaryView.Summs.ToString() + "\n");
-            var user = _context.Users.FirstOrDefault(x => x.Id == salaryView.EmployeeId);
+            var user = _context.Users.FirstOrDefault(x => x.Id == salaryView.ByWhomId);
             if(user == null)
             {
-                throw new NotFoundException();
+                throw new NotFoundException("User Not Found");
             }
             msg.Append("👨‍✈️ Kim berdi : " + user.Phone.ToString());
 

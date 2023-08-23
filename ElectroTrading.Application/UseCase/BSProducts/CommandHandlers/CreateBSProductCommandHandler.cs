@@ -72,11 +72,33 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
             }
             else
             {
-                var fp = await _context.FinishedProducts.FirstOrDefaultAsync(x => x.ProductId == bsProduct.ProductId, cancellationToken);
-                if (fp != null && fp.Amount >= bsProduct.Amount)
+                try
                 {
-                    fp.Amount = fp.Amount - bsProduct.Amount;
+                    var fp = await _context.FinishedProducts.FirstOrDefaultAsync(x => x.ProductId == bsProduct.ProductId, cancellationToken);
+                    var st = await _context.Storages.Include(x => x.Product).ThenInclude(t => t.Compositions).FirstOrDefaultAsync(x => x.ProductId == bsProduct.ProductId, cancellationToken);
+                    if (fp != null && fp.Amount >= bsProduct.Amount)
+                    {
+                        fp.Amount = fp.Amount - bsProduct.Amount;
+                    }
+
+                    if (bsProduct?.Product != null && bsProduct.Product.Compositions != null)
+                    {
+                        foreach (var comp in bsProduct.Product.Compositions)
+                        {
+                            var removest = await _context.Storages.FirstOrDefaultAsync(x => x.ProductId == comp.ProductId, cancellationToken);
+                            if (removest == null)
+                            {
+                                continue;
+                            }
+                            removest.Amount = removest.Amount - comp.Amount;
+                        }
+                    }
                 }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+                
                 try
                 {
                     await _context.SaveChangesAsync(cancellationToken);
@@ -94,7 +116,14 @@ namespace ElectroTrading.Application.UseCase.BSProducts.CommandHandlers
                 }
             }
 
-            await _sendMsg.SendMessage(await _sendMsg.MakeBSProductText(viewModel));
+            try
+            {
+                await _sendMsg.SendMessage(await _sendMsg.MakeBSProductText(viewModel));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex.Message.ToString());
+            }
 
             return viewModel;
         }

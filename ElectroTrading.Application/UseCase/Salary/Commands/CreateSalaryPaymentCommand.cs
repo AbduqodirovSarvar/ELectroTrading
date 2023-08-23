@@ -12,6 +12,11 @@ namespace ElectroTrading.Application.UseCase.Salary.Commands
 {
     public class CreateSalaryPaymentCommand : ICommand<SalaryViewModel>
     {
+        public CreateSalaryPaymentCommand(int id, decimal sum)
+        {
+            EmployeeId = id;
+            Summs = sum;
+        }
         public CreateSalaryPaymentCommand() { }
         [Required]
         public int EmployeeId { get; set; }
