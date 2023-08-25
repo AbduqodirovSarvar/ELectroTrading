@@ -26,7 +26,9 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
         {
             var salary = await _context.PaymentSalaries.Include(x => x.Employee).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (salary == null)
+            {
                 throw new NotFoundException();
+            }
 
             SalaryViewModel viewModel = _mapper.Map<SalaryViewModel>(salary);
             viewModel.Employee = _mapper.Map<EmployeeViewModel>(salary.Employee);

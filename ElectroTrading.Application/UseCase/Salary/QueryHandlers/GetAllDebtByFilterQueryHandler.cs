@@ -24,7 +24,11 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
         public async Task<DebtListViewModel> Handle(GetAllDebtByFilterQuery request, CancellationToken cancellationToken)
         {
             var debts = await _context.EmployeesDebts.Include(x => x.Employee).ToListAsync(cancellationToken);
-            
+            DebtListViewModel res = new DebtListViewModel();
+            if (debts == null || debts.Count < 1)
+            {
+                return res;
+            }
             if (request?.EmployeeId != null)
             {
                 debts = debts.Where(x => x.EmployeeId == request.EmployeeId).ToList();
@@ -50,7 +54,6 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
 
             List<DebtViewModel> result = _mapper.Map<List<DebtViewModel>>(debts);
 
-            DebtListViewModel res = new DebtListViewModel();
             res.EmployeeId = result.First().EmployeeId;
             res.TotalDebtSumms = result.Sum(x => x.Summs);
             res.Debts = result.OrderByDescending(x => x.Id).ToList();

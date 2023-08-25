@@ -25,6 +25,10 @@ namespace ElectroTrading.Application.UseCase.Storages.QueryHandlers
         {
             var sts = await _context.Storages.Include(x => x.Product).ToListAsync(cancellationToken);
             List<StorageViewModel> result = new List<StorageViewModel>();
+            if (sts == null)
+            {
+                return result;
+            }
             foreach(var st in sts)
             {
                 var viewModel = _mapper.Map<StorageViewModel>(st);

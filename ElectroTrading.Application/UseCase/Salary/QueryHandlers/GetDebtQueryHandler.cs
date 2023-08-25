@@ -26,7 +26,9 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
         {
             var debt = await _context.EmployeesDebts.Include(x => x.Employee).FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (debt == null)
-                throw new  NotFoundException();
+            {
+                throw new NotFoundException();
+            }
 
             DebtViewModel viewModel = _mapper.Map<DebtViewModel>(debt);
             viewModel.Employee = _mapper.Map<EmployeeViewModel>(debt.Employee);

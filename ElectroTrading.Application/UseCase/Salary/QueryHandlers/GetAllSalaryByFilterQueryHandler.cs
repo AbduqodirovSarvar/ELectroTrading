@@ -23,6 +23,10 @@ namespace ElectroTrading.Application.UseCase.Salary.QueryHandlers
         public async Task<List<SalaryViewModel>> Handle(GetAllSalaryByFilterQuery request, CancellationToken cancellationToken)
         {
             var salaries = await _context.PaymentSalaries.Include(x => x.Employee).ToListAsync(cancellationToken);
+            if(salaries == null)
+            {
+                return new List<SalaryViewModel>();
+            }
 
             if(request?.EmployeeId != null)
             {
