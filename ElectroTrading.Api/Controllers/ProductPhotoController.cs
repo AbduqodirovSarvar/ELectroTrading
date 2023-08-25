@@ -89,12 +89,24 @@ namespace ElectroTrading.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{Id}")]
-        public async Task<PhysicalFileResult> GetPhoto([FromRoute] int Id)
+        [Route("{ProductId}")]
+        public async Task<IActionResult> GetPhoto([FromRoute] int ProductId)
         {
-            var res = await _mediator.Send(new GetProductPhotoQuery(Id));
+            try
+            {
+                var result = await _mediator.Send(new GetProductPhotoQuery(ProductId));
 
-            return PhysicalFile(res.Item1, res.Item2);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+
+                return PhysicalFile(result.Path, result.ContentType);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("All")]
